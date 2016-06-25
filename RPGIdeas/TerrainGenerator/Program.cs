@@ -12,6 +12,8 @@ namespace TerrainGenerator
         static List<char> path = new List<char>();
         private static int width = 20;
         private static int height = 15;
+        private static int genCount = 0;
+        private static int totalGenerations = 0;
 
         private static char[] allObjects = new[] { ' ', ' ', ' ', 'T', 'R', 'H' };
         private static char[] impassableObj = new[] { 'T', 'R', 'H' };
@@ -28,17 +30,27 @@ namespace TerrainGenerator
         public static void Main()
         {
             Console.WriteLine("HERE BE DRAGONS!\n");
-            GenerateLabyrinth();
 
-            while (!FindPathToExit())
-            {
+            //while (genCount < 400)
+            //{
+            //    genCount = 0;
+            //    totalGenerations++;
                 GenerateLabyrinth();
-            }
-            PrintLabyrinth();
+
+                while (!FindPathToExit())
+                {
+                    GenerateLabyrinth();
+                }
+                PrintLabyrinth();
+               // Console.ReadLine();
+                Console.WriteLine(genCount);
+            //}
+            //Console.WriteLine(totalGenerations);
         }
 
         private static void GenerateLabyrinth()
         {
+            genCount++;
             labyrinth = new char[height, width];
 
             labyrinth[(height / 2) - 1, 0] = 's';
@@ -57,8 +69,7 @@ namespace TerrainGenerator
             }
         }
 
-        static
-            bool FindPathToExit()
+        static bool FindPathToExit()
         {
             for (int row = 0; row < labyrinth.GetLength(0); row++)
             {
@@ -96,7 +107,7 @@ namespace TerrainGenerator
             {
                 labyrinth[row, col] = '.';
 
-                if (TryDirection(row, col - 1, 'L'))
+                if (TryDirection(row, col + 1, 'R'))
                 {
                     return true;
                 }
@@ -104,11 +115,11 @@ namespace TerrainGenerator
                 {
                     return true;
                 }
-                if (TryDirection(row, col + 1, 'R'))
+                if (TryDirection(row + 1, col, 'D'))
                 {
                     return true;
                 }
-                if (TryDirection(row + 1, col, 'D'))
+                if (TryDirection(row, col - 1, 'L'))
                 {
                     return true;
                 }

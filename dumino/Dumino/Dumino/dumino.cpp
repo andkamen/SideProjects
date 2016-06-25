@@ -45,13 +45,13 @@ bool binarySearch(vector<string>& list, int size, vector<string> search)
 }
 
 //sets/resets the letters in the grid
-void initialize_grid(vector_2dc &grid, int grid_length)
+void initialize_grid(vector_2dc &grid, int grid_length, int grid_width)
 {
 	char letter;
 	vector < char > grid_letters;
 
 	cout << "Options-> Edit->Paste the letters for the current game: " << endl;
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < grid_length*grid_width; i++)
 	{
 		cin >> letter;
 		grid_letters.push_back(letter);
@@ -61,9 +61,9 @@ void initialize_grid(vector_2dc &grid, int grid_length)
 	cout << "Current Letter Grid: " << endl;
 	for (int y = 0; y < grid_length; ++y)
 	{
-		for (int x = 0; x < grid_length; ++x)
+		for (int x = 0; x < grid_width; ++x)
 		{
-			grid[x][y] = grid_letters[y*grid_length + x];
+			grid[x][y] = grid_letters[y*grid_width + x];
 			cout << grid[x][y] << " ";
 		}
 		cout << endl;
@@ -77,11 +77,11 @@ static inline void loadbar(unsigned int x, unsigned int n, unsigned int w = 50)
 	if ((x != n) && (x % (n / 100 + 1) != 0)) return;
 
 	float ratio = x / (float)n;
-	int   c = ratio * w;
+	int   c = (int)(ratio * w);
 
 	cout << setw(3) << (int)(ratio * 100) << "% [";
 	for (int x = 0; x < c; x++) cout << "=";
-	for (int x = c; x < w; x++) cout << " ";
+	for (unsigned int x = c; x < w; x++) cout << " ";
 	cout << "]\r" << flush;
 
 }
@@ -106,9 +106,9 @@ void load_wordlist(vector<string>&list)
 	std::cout << "Finished Loading Dictionary. " << endl;
 }
 
-void find_preliminary_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &grid, int grid_length)
+void find_preliminary_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &grid, int grid_length, int grid_width)
 {
-	bool temp_list_found;//indicates that word is part of the currently checked words list
+//	bool temp_list_found;//indicates that word is part of the currently checked words list
 	bool main_list_found;//word is part of the dictionary --> save to output file
 	string word;
 	vector<string> search;
@@ -118,14 +118,14 @@ void find_preliminary_answers(vector<string>&list, vector<string>&temp_list, vec
 	//letter 1
 	for (int y = 0; y < grid_length; ++y)
 	{
-		for (int x = 0; x < grid_length; ++x)
+		for (int x = 0; x < grid_width; ++x)
 		{
 			//letter 2
 			for (int y2 = -1; y2 <= 1; ++y2)
 			{
 				for (int x2 = -1; x2 <= 1; ++x2)
 				{
-					if ((x + x2) < 0 || (x + x2) >= grid_length || (y + y2) < 0 || (y + y2) >= grid_length ||
+					if ((x + x2) < 0 || (x + x2) >= grid_width || (y + y2) < 0 || (y + y2) >= grid_length ||
 						&grid[x][y] == &grid[x + x2][y + y2])
 					{
 						continue;
@@ -135,7 +135,7 @@ void find_preliminary_answers(vector<string>&list, vector<string>&temp_list, vec
 					{
 						for (int x3 = -1; x3 <= 1; ++x3)
 						{
-							if ((x + x2 + x3) < 0 || (x + x2 + x3) >= grid_length || (y + y2 + y3) < 0 || (y + y2 + y3) >= grid_length ||
+							if ((x + x2 + x3) < 0 || (x + x2 + x3) >= grid_width || (y + y2 + y3) < 0 || (y + y2 + y3) >= grid_length ||
 								&grid[x + x2][y + y2] == &grid[x + x2 + x3][y + y2 + y3] ||
 								&grid[x][y] == &grid[x + x2 + x3][y + y2 + y3])
 							{
@@ -164,7 +164,7 @@ void find_preliminary_answers(vector<string>&list, vector<string>&temp_list, vec
 							{
 								for (int x4 = -1; x4 <= 1; ++x4)
 								{
-									if ((x + x2 + x3 + x4) < 0 || (x + x2 + x3 + x4) >= grid_length || (y + y2 + y3 + y4) < 0 || (y + y2 + y3 + y4) >= grid_length ||
+									if ((x + x2 + x3 + x4) < 0 || (x + x2 + x3 + x4) >= grid_width || (y + y2 + y3 + y4) < 0 || (y + y2 + y3 + y4) >= grid_length ||
 										&grid[x][y] == &grid[x + x2 + x3 + x4][y + y2 + y3 + y4] ||
 										&grid[x + x2][y + y2] == &grid[x + x2 + x3 + x4][y + y2 + y3 + y4] ||
 										&grid[x + x2 + x3][y + y2 + y3] == &grid[x + x2 + x3 + x4][y + y2 + y3 + y4]
@@ -178,7 +178,7 @@ void find_preliminary_answers(vector<string>&list, vector<string>&temp_list, vec
 									{
 										for (int x5 = -1; x5 <= 1; ++x5)
 										{
-											if ((x + x2 + x3 + x4 + x5) < 0 || (x + x2 + x3 + x4 + x5) >= grid_length || (y + y2 + y3 + y4 + y5) < 0 || (y + y2 + y3 + y4 + y5) >= grid_length ||
+											if ((x + x2 + x3 + x4 + x5) < 0 || (x + x2 + x3 + x4 + x5) >= grid_width || (y + y2 + y3 + y4 + y5) < 0 || (y + y2 + y3 + y4 + y5) >= grid_length ||
 												&grid[x][y] == &grid[x + x2 + x3 + x4 + x5][y + y2 + y3 + y4 + y5] ||
 												&grid[x + x2][y + y2] == &grid[x + x2 + x3 + x4 + x5][y + y2 + y3 + y4 + y5] ||
 												&grid[x + x2 + x3][y + y2 + y3] == &grid[x + x2 + x3 + x4 + x5][y + y2 + y3 + y4 + y5] ||
@@ -214,7 +214,7 @@ void find_preliminary_answers(vector<string>&list, vector<string>&temp_list, vec
 											{
 												for (int x6 = -1; x6 <= 1; ++x6)
 												{
-													if ((x + x2 + x3 + x4 + x5 + x6) < 0 || (x + x2 + x3 + x4 + x5 + x6) >= grid_length || (y + y2 + y3 + y4 + y5 + y6) < 0 || (y + y2 + y3 + y4 + y5 + y6) >= grid_length ||
+													if ((x + x2 + x3 + x4 + x5 + x6) < 0 || (x + x2 + x3 + x4 + x5 + x6) >= grid_width || (y + y2 + y3 + y4 + y5 + y6) < 0 || (y + y2 + y3 + y4 + y5 + y6) >= grid_length ||
 														&grid[x][y] == &grid[x + x2 + x3 + x4 + x5 + x6][y + y2 + y3 + y4 + y5 + y6] ||
 														&grid[x + x2][y + y2] == &grid[x + x2 + x3 + x4 + x5 + x6][y + y2 + y3 + y4 + y5 + y6] ||
 														&grid[x + x2 + x3][y + y2 + y3] == &grid[x + x2 + x3 + x4 + x5 + x6][y + y2 + y3 + y4 + y5 + y6] ||
@@ -266,9 +266,9 @@ void find_preliminary_answers(vector<string>&list, vector<string>&temp_list, vec
 }
 
 //itterates through grid to create the 3,5,6,7,8 letter words and check which ones are actual words
-void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &grid, int grid_length)
+void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &grid, int grid_length, int grid_width)
 {
-	bool temp_list_found;//indicates that word is part of the currently checked words list
+//	bool temp_list_found;//indicates that word is part of the currently checked words list
 	bool main_list_found;//word is part of the dictionary --> save to output file
 	string word;
 	vector<string> search;
@@ -279,14 +279,14 @@ void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &gri
 	//letter 1
 	for (int y = 0; y < grid_length; ++y)
 	{
-		for (int x = 0; x < grid_length; ++x)
+		for (int x = 0; x < grid_width; ++x)
 		{
 			//letter 2
 			for (int y2 = -1; y2 <= 1; ++y2)
 			{
 				for (int x2 = -1; x2 <= 1; ++x2)
 				{
-					if ((x + x2) < 0 || (x + x2) >= grid_length || (y + y2) < 0 || (y + y2) >= grid_length ||
+					if ((x + x2) < 0 || (x + x2) >= grid_width || (y + y2) < 0 || (y + y2) >= grid_length ||
 						&grid[x][y] == &grid[x + x2][y + y2])
 					{
 						continue;
@@ -296,7 +296,7 @@ void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &gri
 					{
 						for (int x3 = -1; x3 <= 1; ++x3)
 						{
-							if ((x + x2 + x3) < 0 || (x + x2 + x3) >= grid_length || (y + y2 + y3) < 0 || (y + y2 + y3) >= grid_length ||
+							if ((x + x2 + x3) < 0 || (x + x2 + x3) >= grid_width || (y + y2 + y3) < 0 || (y + y2 + y3) >= grid_length ||
 								&grid[x + x2][y + y2] == &grid[x + x2 + x3][y + y2 + y3] ||
 								&grid[x][y] == &grid[x + x2 + x3][y + y2 + y3])
 							{
@@ -308,7 +308,7 @@ void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &gri
 							{
 								for (int x4 = -1; x4 <= 1; ++x4)
 								{
-									if ((x + x2 + x3 + x4) < 0 || (x + x2 + x3 + x4) >= grid_length || (y + y2 + y3 + y4) < 0 || (y + y2 + y3 + y4) >= grid_length ||
+									if ((x + x2 + x3 + x4) < 0 || (x + x2 + x3 + x4) >= grid_width || (y + y2 + y3 + y4) < 0 || (y + y2 + y3 + y4) >= grid_length ||
 										&grid[x][y] == &grid[x + x2 + x3 + x4][y + y2 + y3 + y4] ||
 										&grid[x + x2][y + y2] == &grid[x + x2 + x3 + x4][y + y2 + y3 + y4] ||
 										&grid[x + x2 + x3][y + y2 + y3] == &grid[x + x2 + x3 + x4][y + y2 + y3 + y4]
@@ -322,7 +322,7 @@ void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &gri
 									{
 										for (int x5 = -1; x5 <= 1; ++x5)
 										{
-											if ((x + x2 + x3 + x4 + x5) < 0 || (x + x2 + x3 + x4 + x5) >= grid_length || (y + y2 + y3 + y4 + y5) < 0 || (y + y2 + y3 + y4 + y5) >= grid_length ||
+											if ((x + x2 + x3 + x4 + x5) < 0 || (x + x2 + x3 + x4 + x5) >= grid_width || (y + y2 + y3 + y4 + y5) < 0 || (y + y2 + y3 + y4 + y5) >= grid_length ||
 												&grid[x][y] == &grid[x + x2 + x3 + x4 + x5][y + y2 + y3 + y4 + y5] ||
 												&grid[x + x2][y + y2] == &grid[x + x2 + x3 + x4 + x5][y + y2 + y3 + y4 + y5] ||
 												&grid[x + x2 + x3][y + y2 + y3] == &grid[x + x2 + x3 + x4 + x5][y + y2 + y3 + y4 + y5] ||
@@ -337,7 +337,7 @@ void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &gri
 											{
 												for (int x6 = -1; x6 <= 1; ++x6)
 												{
-													if ((x + x2 + x3 + x4 + x5 + x6) < 0 || (x + x2 + x3 + x4 + x5 + x6) >= grid_length || (y + y2 + y3 + y4 + y5 + y6) < 0 || (y + y2 + y3 + y4 + y5 + y6) >= grid_length ||
+													if ((x + x2 + x3 + x4 + x5 + x6) < 0 || (x + x2 + x3 + x4 + x5 + x6) >= grid_width || (y + y2 + y3 + y4 + y5 + y6) < 0 || (y + y2 + y3 + y4 + y5 + y6) >= grid_length ||
 														&grid[x][y] == &grid[x + x2 + x3 + x4 + x5 + x6][y + y2 + y3 + y4 + y5 + y6] ||
 														&grid[x + x2][y + y2] == &grid[x + x2 + x3 + x4 + x5 + x6][y + y2 + y3 + y4 + y5 + y6] ||
 														&grid[x + x2 + x3][y + y2 + y3] == &grid[x + x2 + x3 + x4 + x5 + x6][y + y2 + y3 + y4 + y5 + y6] ||
@@ -353,7 +353,7 @@ void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &gri
 													{
 														for (int x7 = -1; x7 <= 1; ++x7)
 														{
-															if ((x + x2 + x3 + x4 + x5 + x6 + x7) < 0 || (x + x2 + x3 + x4 + x5 + x6 + x7) >= grid_length || (y + y2 + y3 + y4 + y5 + y6 + y7) < 0 || (y + y2 + y3 + y4 + y5 + y6 + y7) >= grid_length ||
+															if ((x + x2 + x3 + x4 + x5 + x6 + x7) < 0 || (x + x2 + x3 + x4 + x5 + x6 + x7) >= grid_width || (y + y2 + y3 + y4 + y5 + y6 + y7) < 0 || (y + y2 + y3 + y4 + y5 + y6 + y7) >= grid_length ||
 																&grid[x][y] == &grid[x + x2 + x3 + x4 + x5 + x6 + x7][y + y2 + y3 + y4 + y5 + y6 + y7] ||
 																&grid[x + x2][y + y2] == &grid[x + x2 + x3 + x4 + x5 + x6 + x7][y + y2 + y3 + y4 + y5 + y6 + y7] ||
 																&grid[x + x2 + x3][y + y2 + y3] == &grid[x + x2 + x3 + x4 + x5 + x6 + x7][y + y2 + y3 + y4 + y5 + y6 + y7] ||
@@ -396,7 +396,7 @@ void find_answers(vector<string>&list, vector<string>&temp_list, vector_2dc &gri
 															{
 																for (int x8 = -1; x8 <= 1; ++x8)
 																{
-																	if ((x + x2 + x3 + x4 + x5 + x6 + x7 + x8) < 0 || (x + x2 + x3 + x4 + x5 + x6 + x7 + x8) >= grid_length || (y + y2 + y3 + y4 + y5 + y6 + y7 + y8) < 0 || (y + y2 + y3 + y4 + y5 + y6 + y7 + y8) >= grid_length ||
+																	if ((x + x2 + x3 + x4 + x5 + x6 + x7 + x8) < 0 || (x + x2 + x3 + x4 + x5 + x6 + x7 + x8) >= grid_width || (y + y2 + y3 + y4 + y5 + y6 + y7 + y8) < 0 || (y + y2 + y3 + y4 + y5 + y6 + y7 + y8) >= grid_length ||
 																		&grid[x][y] == &grid[x + x2 + x3 + x4 + x5 + x6 + x7 + x8][y + y2 + y3 + y4 + y5 + y6 + y7 + y8] ||
 																		&grid[x + x2][y + y2] == &grid[x + x2 + x3 + x4 + x5 + x6 + x7 + x8][y + y2 + y3 + y4 + y5 + y6 + y7 + y8] ||
 																		&grid[x + x2 + x3][y + y2 + y3] == &grid[x + x2 + x3 + x4 + x5 + x6 + x7 + x8][y + y2 + y3 + y4 + y5 + y6 + y7 + y8] ||
@@ -473,8 +473,9 @@ int main()
 	vector<string> list; //dictionary list
 	vector<string> temp_list; // list of current words
 
-	int grid_length = 5;
-	vector_2dc grid(grid_length, vector<char>(grid_length)); //letter grid
+	int grid_height = 5;
+	int grid_width = 6;
+	vector_2dc grid(grid_width, vector<char>(grid_height)); //letter grid
 	bool consecutive_game = false;
 
 	//create the output file (or empty it since the last use)
@@ -482,7 +483,7 @@ int main()
 	file_output.open("results.txt");
 	file_output.close();
 
-	load_wordlist(list);//Fill the list with the sorted dictionary words (takes about 1.5mins)
+	load_wordlist(list);//Fill the list with the ~1 million sorted dictionary words (takes about 1.5mins)
 
 	while (true)
 	{
@@ -504,9 +505,9 @@ int main()
 			}
 		}
 
-		initialize_grid(grid, grid_length);//set the letters
+		initialize_grid(grid, grid_height, grid_width);//set the letters
 
-		find_preliminary_answers(list, temp_list, grid, grid_length);
+		find_preliminary_answers(list, temp_list, grid, grid_height, grid_width);
 
 		compare c_prelim;
 		sort(temp_list.begin(), temp_list.end());
@@ -519,7 +520,7 @@ int main()
 		}
 		file_output.close();
 
-		find_answers(list, temp_list, grid, grid_length);//itterate through grid and find words (takes <1min)
+		find_answers(list, temp_list, grid, grid_height, grid_width);//itterate through grid and find words (takes <1min)
 
 		compare c;
 		sort(temp_list.begin(), temp_list.end());
