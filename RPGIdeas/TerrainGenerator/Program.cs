@@ -10,50 +10,49 @@ namespace TerrainGenerator
     {
         static Random rng = new Random();
         static List<char> path = new List<char>();
-        private static int width = 20;
-        private static int height = 15;
+        private static int width = 10;
+        private static int height = 10;
         private static int genCount = 0;
         private static int totalGenerations = 0;
+        private static bool isPrinted = false;
 
-        private static char[] allObjects = new[] { ' ', ' ', ' ', 'T', 'R', 'H' };
-        private static char[] impassableObj = new[] { 'T', 'R', 'H' };
+        private static char[] allObjects = { ' ', ' ', ' ', ' ', ' ', ' ', 'T', 'T', 'H' };
+        private static char[] impassableObj = { 'T', 'R', 'H' };
+        private static char[] passableObj = { ' ' };
 
         private static char[,] labyrinth =
         {
             {'s',' ',' ',' ',' ',' '},
-            {' ','*','*',' ','*',' '},
-            {' ','*','*',' ','*',' '},
-            {' ','*','e',' ',' ',' '},
-            {' ',' ',' ','*',' ',' '}
+            {' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ','e'},
+            {' ',' ',' ',' ',' ',' '},
+            {' ',' ',' ',' ',' ',' '}
         };
 
         public static void Main()
         {
-            Console.WriteLine("HERE BE DRAGONS!\n");
+            System.IO.StreamWriter file = new System.IO.StreamWriter("RGT_Log.txt");
+            file.WriteLine("RANDOMLY GENERATED TERRAIN LOG");
+            file.Close();
 
-            //while (genCount < 400)
-            //{
-            //    genCount = 0;
-            //    totalGenerations++;
+            GenerateLabyrinth();
+            Console.WriteLine();
+            while (!FindPathToExit())
+            {
                 GenerateLabyrinth();
+            }
+            Console.WriteLine(genCount);
 
-                while (!FindPathToExit())
-                {
-                    GenerateLabyrinth();
-                }
-                PrintLabyrinth();
-               // Console.ReadLine();
-                Console.WriteLine(genCount);
-            //}
-            //Console.WriteLine(totalGenerations);
         }
 
         private static void GenerateLabyrinth()
         {
-            genCount++;
+            System.IO.StreamWriter file = new System.IO.StreamWriter("RGT_Log.txt", true);
+            file.WriteLine("Starting labyrinth generation...");
+
             labyrinth = new char[height, width];
 
-            labyrinth[(height / 2) - 1, 0] = 's';
+            labyrinth[1, 0] = 's';
             labyrinth[height / 2, width - 1] = 'e';
 
             for (int row = 0; row < labyrinth.GetLength(0); row++)
@@ -67,6 +66,11 @@ namespace TerrainGenerator
                     labyrinth[row, col] = allObjects[rng.Next(allObjects.Length)];
                 }
             }
+            genCount++;
+            isPrinted = false;
+            file.WriteLine("Finished labyrinth generation...");
+            file.Close();
+
         }
 
         static bool FindPathToExit()
@@ -77,10 +81,13 @@ namespace TerrainGenerator
                 {
                     if (labyrinth[row, col] == 's')
                     {
-                        return TryDirection(row, col - 1, 'L') ||
-                            TryDirection(row - 1, col, 'U') ||
-                            TryDirection(row, col + 1, 'R') ||
-                            TryDirection(row + 1, col, 'D');
+                        bool foundDirection = TryDirection(row, col + 1, 'R') ||
+                                              TryDirection(row - 1, col, 'U') ||
+                                              TryDirection(row + 1, col, 'D') ||
+                                              TryDirection(row, col - 1, 'L');
+                        PrintLabyrinth();
+
+                        return foundDirection;
                     }
                 }
             }
@@ -95,11 +102,13 @@ namespace TerrainGenerator
             }
 
             path.Add(direction);
+            //PrintPath(path);
 
             if (labyrinth[row, col] == 'e')
             {
+                // isPrinted = false;
                 //PrintPath(path);
-                //PrintLabyrinth();
+                // PrintLabyrinth();
                 return true;
             }
 
@@ -125,7 +134,7 @@ namespace TerrainGenerator
                 }
 
 
-                labyrinth[row, col] = ' ';
+                 labyrinth[row, col] = ' ';
             }
 
             path.RemoveAt(path.Count - 1);
@@ -148,19 +157,42 @@ namespace TerrainGenerator
                 {
                     Console.Write("{0} ", labyrinth[row, col]);
                 }
-
                 Console.WriteLine();
             }
+
+
+            System.IO.StreamWriter file = new System.IO.StreamWriter("RGT_Log.txt", true);
+            file.WriteLine("CURRENT GENERATION COUNT: {0}", genCount);
+
+            for (int row = 0; row < labyrinth.GetLength(0); row++)
+            {
+                for (int col = 0; col < labyrinth.GetLength(1); col++)
+                {
+                    file.Write("{0} ", labyrinth[row, col]);
+                }
+                file.WriteLine();
+            }
+            file.Close();
+            isPrinted = true;
         }
 
         static void PrintPath(List<char> path)
         {
-            Console.Write("Found path to the exit: ");
+            // Console.Write("Found path to the exit: ");
             foreach (var dir in path)
             {
                 Console.Write(dir);
             }
             Console.WriteLine();
+
+            System.IO.StreamWriter file = new System.IO.StreamWriter("RGT_Log.txt", true);
+            foreach (var dir in path)
+            {
+                file.Write(dir);
+            }
+            file.WriteLine();
+            file.Close();
+
         }
     }
 }
