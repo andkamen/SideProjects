@@ -96,9 +96,9 @@ namespace TerrainGenerator2
             {
                 passableArea.Add(new Tuple<int, int>(row, col));
 
-                //9 is any number not a passable or impassable object so as not to cause
+                //-1 is any number not a passable or impassable object so as not to cause
                 // stack overflow or to terminate the search prematurely
-                gridTraced[row, col] = 9;  
+                gridTraced[row, col] = -1;  
 
                 TryDirection(row, col - 1, 'L'); // left
                 TryDirection(row - 1, col, 'U'); // up
