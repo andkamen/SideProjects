@@ -19,4 +19,9 @@ public class CooperativeStrategy extends BaseStrategy {
     public void updateOpponentMove(boolean opponentMove) {
         //doesn't need opponent move info because it always cooperates
     }
+
+    @Override
+    public void resetStrategy() {
+        //nothing changes in the strat. Nothing to reset
+    }
 }

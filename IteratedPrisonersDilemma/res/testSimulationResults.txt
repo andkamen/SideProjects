@@ -1,0 +1,7 @@
+test SIMULATION RESULTS
+   Generation 1:
+SelfishStrategy                ( 25) ->   1278763
+GrudgerStrategy                ( 25) ->   1262763
+CooperativeStrategy            ( 25) ->    945096
+RandomStrategy                 ( 25) ->    922186
+

@@ -16,6 +16,11 @@ public class SelfishStrategy extends BaseStrategy {
 
     @Override
     public void updateOpponentMove(boolean opponentMove) {
-        //doesn't need opponent move info because it always cooperates
+        //doesn't need opponent move info because its always selfish
+    }
+
+    @Override
+    public void resetStrategy() {
+        //nothing changes in the strat. Nothing to reset
     }
 }

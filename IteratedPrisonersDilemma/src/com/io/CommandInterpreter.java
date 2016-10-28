@@ -2,9 +2,7 @@ package com.io;
 
 import com.exceptions.InvalidInputException;
 import com.exceptions.MissingCommandArgumentsException;
-import com.io.commands.CreateCommand;
-import com.io.commands.ManualFillCommand;
-import com.io.commands.RunCommand;
+import com.io.commands.*;
 import com.io.commands.contracts.Command;
 import com.io.contracts.Interpreter;
 import com.core.contracts.SimulationData;
@@ -24,6 +22,8 @@ public class CommandInterpreter implements Interpreter {
     @Override
     public Command dispatchCommand(String commandName, String[] arguments) {
         Command command = null;
+
+        //TODO check arguments length. ! number req should throw
         switch (commandName.toLowerCase()) {
             case "create":
                 command = new CreateCommand(this.data, this.strategyFactory, arguments);
@@ -33,10 +33,12 @@ public class CommandInterpreter implements Interpreter {
                     throw new MissingCommandArgumentsException();
                 }
                 String mode = arguments[2];
-                //TODO add text init command
                 switch (mode.toLowerCase()) {
                     case Constants.FILL_MODE_MANUAL:
                         command = new ManualFillCommand(this.data, this.strategyFactory, arguments);
+                        break;
+                    case Constants.FILL_MODE_FILE:
+                        command = new FileFillCommand(this.data, this.strategyFactory, arguments);
                         break;
                     default:
                         throw new InvalidInputException(mode.toLowerCase());
@@ -44,6 +46,12 @@ public class CommandInterpreter implements Interpreter {
                 break;
             case "run":
                 command = new RunCommand(this.data, arguments);
+                break;
+            case "print":
+                command = new PrintCommand(this.data, new ConsoleWriter(), arguments);
+                break;
+            case "help":
+                command = new HelpCommand(arguments);
                 break;
             default:
                 throw new InvalidInputException(commandName.toLowerCase());

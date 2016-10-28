@@ -11,8 +11,10 @@ public class Messages {
 
     public static final String SUCCESSFULLY_REMOVED_ITEM = "Successfully removed '%s' %s.";
 
-    public static final String SUCCESSFULLY_RAN_SIMULATION = "Successfull ran simulation '%s' for %d generations.";
+    public static final String SUCCESSFULLY_RAN_SIMULATION = "Successfully ran simulation '%s' for %d generations.";
 
-    public static final String SUCCESSFULLY_RAN_TOURNAMENT = "Successfull ran tournament '%s'.";
+    public static final String SUCCESSFULLY_RAN_TOURNAMENT = "Successfully ran tournament '%s'.";
+
+    public static final String SUCCESSFULLY_WROTE_RESULTS_TO_FILE = "Successfully wrote result to '%s'.";
 
 }

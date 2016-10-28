@@ -12,6 +12,15 @@ public abstract class BaseStrategy implements Strategy {
         //this.setName(name);
     }
 
+    @Override
+    public abstract boolean makeMove();
+
+    @Override
+    public abstract void resetStrategy();
+
+    @Override
+    public abstract void updateOpponentMove(boolean opponentMove);
+
 //    @Override
 //    public String getName() {
 //        return this.name;

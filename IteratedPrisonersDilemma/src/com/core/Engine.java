@@ -46,7 +46,7 @@ public class Engine implements EngineInterface {
 
     private void processInput(String input) {
 
-        String[] splitArgs = input.split(Constants.INPUT_SPLIT_DELIMITER);
+        String[] splitArgs = input.split(Constants.SPACE_SPLIT_DELIMITER);
 
         String commandName = splitArgs[0];
 

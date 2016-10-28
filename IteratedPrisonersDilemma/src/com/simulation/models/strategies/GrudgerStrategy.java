@@ -23,5 +23,10 @@ public class GrudgerStrategy extends BaseStrategy {
         }
     }
 
+    @Override
+    public void resetStrategy() {
+        this.wasBetrayed = false;
+    }
+
 
 }

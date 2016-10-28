@@ -6,36 +6,44 @@ import com.exceptions.InvalidInputException;
 import com.simulation.contracts.Strategy;
 import com.utilities.Constants;
 
-/**
- * Fills a tournament or simulation with strategies give via console input
- */
-public class ManualFillCommand extends BaseCommand {
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
-
+public class FileFillCommand extends BaseCommand {
     private StrategyFactory strategyFactory;
 
-    public ManualFillCommand(SimulationData data, StrategyFactory strategyFactory, String[] arguments) {
+    public FileFillCommand(SimulationData data, StrategyFactory strategyFactory, String[] arguments) {
         super(data, arguments);
         this.strategyFactory = strategyFactory;
     }
 
     @Override
-    public String execute() {
+    public String execute() throws IOException {
         String[] arguments = this.getArguments();
         StringBuilder consoleOutput = new StringBuilder();
         String simulationType = arguments[0];
         String simulationName = arguments[1];
+        String fileName = arguments[3] + Constants.TEXT_FILE_EXTENSION;
 
-        String[] strategyInfo = arguments[3].split(Constants.PIPE_SPLIT_DELIMITER);
+        String path = Constants.RESOURCES_FOLDER_PATH + fileName;
+        List<String> lines = Files.readAllLines(Paths.get(path));
 
-        for (String info : strategyInfo) {
-            String[] args = info.split(Constants.UNDERSCORE_SPLIT_DELIMITER);
+        for (String line : lines) {
+            String[] args = line.split(Constants.SPACE_SPLIT_DELIMITER);
             String strategyName = args[0] + "Strategy";
             int strategyCount = 1;
             if (args.length > 1) {
                 strategyCount = Integer.parseInt(args[1]);
                 //todo check negative counts
             }
+
+            //TODO code duplication.
+            /*
+            moving the code to a function doesn't solve the problem. Still needs to be defined in the command.
+            Moving it to base command means it has to know about factories and every other command will have access to it too.
+             */
 
             for (int i = 0; i < strategyCount; i++) {
                 Strategy newStrategy = this.strategyFactory.buildStrategy(strategyName);
@@ -52,6 +60,7 @@ public class ManualFillCommand extends BaseCommand {
                 }
             }
         }
+
         consoleOutput.setLength(consoleOutput.length() - 1);
         return consoleOutput.toString();
     }

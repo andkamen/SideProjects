@@ -14,10 +14,10 @@ public interface Generation extends Strategyable {
 
     String getName();
 
-
     /**
      * Matches every registered strategy vs every other one and saves their performance
      */
     void playOut();
 
+    String print(boolean isVerboseMode);
 }

@@ -1,11 +1,15 @@
 package com.simulation.models;
 
+import com.exceptions.InsufficientRegisteredStrategiesException;
+import com.io.ConsoleWriter;
+import com.simulation.contracts.MatchUpResult;
 import com.simulation.contracts.Strategy;
 import com.simulation.contracts.Generation;
 import com.utilities.Constants;
 import com.utilities.Messages;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GenerationImpl implements Generation {
 
@@ -13,6 +17,7 @@ public class GenerationImpl implements Generation {
     private List<Strategy> strategies;
     private Map<String, Integer> strategyScores;
     private Map<String, Integer> strategyCount;
+    private List<MatchUpResult> matchUpResults;
     private int roundCount;
     private Random rand;
 
@@ -23,6 +28,7 @@ public class GenerationImpl implements Generation {
         this.strategies = new ArrayList<>();
         this.strategyScores = new HashMap<>();
         this.strategyCount = new HashMap<>();
+        this.matchUpResults = new ArrayList<>();
         this.rand = new Random();
         this.name = null;
         this.setNewRoundCount();
@@ -32,6 +38,7 @@ public class GenerationImpl implements Generation {
         this.strategies = new ArrayList<>();
         this.strategyScores = new HashMap<>();
         this.strategyCount = new HashMap<>();
+        this.matchUpResults = new ArrayList<>();
         this.rand = new Random();
         this.name = name;
 
@@ -99,12 +106,14 @@ public class GenerationImpl implements Generation {
 
     @Override
     public void playOut() {
+        if (strategies.size() < 2) {
+            throw new InsufficientRegisteredStrategiesException();
+        }
 
-        //TODO exception if <2 strats registered
         Strategy stratA = null;
         Strategy stratB = null;
         int tempValue;
-        int[] matchUpResult;
+        MatchUpResult matchUpResult;
 
         for (int i = 0; i < this.strategies.size(); i++) {
             stratA = this.strategies.get(i);
@@ -115,24 +124,37 @@ public class GenerationImpl implements Generation {
                 stratB = this.strategies.get(j);
 
                 matchUpResult = matchUp(stratA, stratB);
-                tempValue = this.strategyScores.get(stratA.getClass().getSimpleName()) + matchUpResult[0];
+                this.matchUpResults.add(matchUpResult);
+                // System.out.println(matchUpResult.toString());
+
+                tempValue = this.strategyScores.get(stratA.getClass().getSimpleName()) + matchUpResult.getStratAScore();
                 this.strategyScores.put(stratA.getClass().getSimpleName(), tempValue);
 
-                tempValue = this.strategyScores.get(stratB.getClass().getSimpleName()) + matchUpResult[1];
+                tempValue = this.strategyScores.get(stratB.getClass().getSimpleName()) + matchUpResult.getStratBScore();
                 this.strategyScores.put(stratB.getClass().getSimpleName(), tempValue);
+                //System.out.println();
             }
         }
     }
 
-    private int[] matchUp(Strategy stratA, Strategy stratB) {
+    private MatchUpResult matchUp(Strategy stratA, Strategy stratB) {
+
         boolean stratAMove;
         boolean stratBMove;
-        int[] roundResult;
+        boolean[] allStratAMoves = new boolean[this.roundCount];
+        boolean[] allStratBMoves = new boolean[this.roundCount];
+        int[] roundResult; // 0 for stratA , 1 for stratB
         int[] matchUpResult = new int[2];
+
+        stratA.resetStrategy();
+        stratB.resetStrategy();
 
         for (int i = 0; i < this.roundCount; i++) {
             stratAMove = stratA.makeMove();
+            allStratAMoves[i] = stratAMove;
+
             stratBMove = stratB.makeMove();
+            allStratBMoves[i] = stratBMove;
 
             stratA.updateOpponentMove(stratBMove);
             stratB.updateOpponentMove(stratAMove);
@@ -141,7 +163,9 @@ public class GenerationImpl implements Generation {
             matchUpResult[0] += roundResult[0];
             matchUpResult[1] += roundResult[1];
         }
-        return matchUpResult;
+        MatchUpResult result = new MatchUpResultImpl(stratA.getClass().getSimpleName(), stratB.getClass().getSimpleName(), allStratAMoves, allStratBMoves, matchUpResult[0], matchUpResult[1]);
+
+        return result;
     }
 
     private int[] determineRoundResult(boolean stratAMove, boolean stratBMove) {
@@ -168,8 +192,38 @@ public class GenerationImpl implements Generation {
     }
 
     private void setNewRoundCount() {
+        //Random number between A and B = rand((B-A)+1) + A
         int newRoundCount = this.rand.nextInt((Constants.MAX_GENERATION_ROUND_COUNT - Constants.MIN_GENERATION_ROUND_COUNT) + 1)
                 + Constants.MIN_GENERATION_ROUND_COUNT;
         this.setRoundCount(newRoundCount);
+    }
+
+    public String print(boolean isVerboseMode) {
+        StringBuilder sb = new StringBuilder();
+
+        this.strategyScores = this.strategyScores.entrySet()
+                .stream()
+                .sorted((a, b) -> b.getValue().compareTo(a.getValue()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+        for (Map.Entry<String, Integer> entry : this.strategyScores.entrySet()) {
+            //TODO add constant for alignment length
+            sb.append(String.format("%-30s (%3d) -> %9d", entry.getKey(), this.strategyCount.get(entry.getKey()), entry.getValue()))
+                    .append(System.lineSeparator());
+        }
+        sb.append(System.lineSeparator());
+
+        if (isVerboseMode) {
+            for (MatchUpResult matchUpResult : matchUpResults) {
+                sb.append(matchUpResult.toString())
+                        .append(System.lineSeparator());
+            }
+        }
+        return sb.toString();
     }
 }

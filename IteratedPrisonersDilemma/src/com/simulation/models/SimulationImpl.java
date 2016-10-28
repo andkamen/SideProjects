@@ -42,8 +42,6 @@ public class SimulationImpl implements Simulation {
     // for how to represent %'s as whole numbers that add to 100%
     @Override
     public void run(int generationCount) {
-        //TODO exception if <2 strats registered
-
         Generation nextGeneration = null;
 
         for (int i = 0; i < generationCount; i++) {
@@ -117,4 +115,20 @@ public class SimulationImpl implements Simulation {
 
         return strategyDistribution;
     }
+
+    public String print(boolean isVerboseMode) {
+        StringBuilder sb = new StringBuilder();
+        //TODO work on formatting
+        sb.append(String.format("%s SIMULATION RESULTS", this.getName()))
+                .append(System.lineSeparator());
+        //skips the last generation because it still hasn't played out
+        for (int i = 0; i < this.generations.size() - 1; i++) {
+            sb.append(String.format("   Generation %d:", i + 1))
+                    .append(System.lineSeparator());
+            sb.append(this.generations.get(i).print(isVerboseMode));
+        }
+
+        return sb.toString();
+    }
+
 }

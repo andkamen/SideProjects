@@ -19,6 +19,11 @@ public interface Strategy {
     boolean makeMove();
 
     /**
+     * Resets the strategy to base behaviour.
+     */
+    void resetStrategy();
+
+    /**
      * Updates the strategy's info about the last opponent's moves. The strategy might base it's next move decision
      * on this information.
      *
