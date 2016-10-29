@@ -3,10 +3,7 @@ package com.core;
 import com.core.contracts.StrategyFactory;
 import com.exceptions.InvalidStrategyNameException;
 import com.simulation.contracts.Strategy;
-import com.simulation.models.strategies.CooperativeStrategy;
-import com.simulation.models.strategies.GrudgerStrategy;
-import com.simulation.models.strategies.RandomStrategy;
-import com.simulation.models.strategies.SelfishStrategy;
+import com.simulation.models.strategies.*;
 
 public class StrategyFactoryImpl implements StrategyFactory {
 
@@ -18,22 +15,37 @@ public class StrategyFactoryImpl implements StrategyFactory {
         Strategy newStrategy = null;
 
         switch (strategyType) {
-            case "CooperativeStrategy":
-                newStrategy = new CooperativeStrategy();
+            case "AlwaysCooperate":
+                newStrategy = new AlwaysCooperateStrategy();
                 break;
-            case "GrudgerStrategy":
+            case "AlwaysDefect":
+                newStrategy = new AlwaysDefectStrategy();
+                break;
+            case "Grudger":
                 newStrategy = new GrudgerStrategy();
                 break;
-            case "RandomStrategy":
+            case "Random":
                 newStrategy = new RandomStrategy();
                 break;
-            case "SelfishStrategy":
-                newStrategy = new SelfishStrategy();
+            case "SuspiciousTitForTat":
+                newStrategy = new SuspiciousTitForTatStrategy();
+                break;
+            case "TitForTat":
+                newStrategy = new TitForTatStrategy();
+                break;
+            case "TitForTwoTats":
+                newStrategy = new TitForTwoTatsStrategy();
+                break;
+            case "TwoTitsForTat":
+                newStrategy = new TwoTitsForTatStrategy();
+                break;
+            case "Gradual":
+                newStrategy = new GradualStrategy();
                 break;
             default:
-                throw new InvalidStrategyNameException(strategyType.replaceAll("Strategy", ""));
+                throw new InvalidStrategyNameException(strategyType);
         }
-
+        //TitForTwoTatsStrategy
         return newStrategy;
     }
 }

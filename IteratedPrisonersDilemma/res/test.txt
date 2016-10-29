@@ -1,4 +1,0 @@
-Random 25
-Grudger 25
-Cooperative 25
-Selfish 25

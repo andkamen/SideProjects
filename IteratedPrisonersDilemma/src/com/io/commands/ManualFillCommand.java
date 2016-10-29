@@ -30,7 +30,7 @@ public class ManualFillCommand extends BaseCommand {
 
         for (String info : strategyInfo) {
             String[] args = info.split(Constants.UNDERSCORE_SPLIT_DELIMITER);
-            String strategyName = args[0] + "Strategy";
+            String strategyName = args[0];
             int strategyCount = 1;
             if (args.length > 1) {
                 strategyCount = Integer.parseInt(args[1]);

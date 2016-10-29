@@ -2,8 +2,6 @@ package com.simulation.models;
 
 import com.simulation.contracts.MatchUpResult;
 
-import java.util.Arrays;
-
 public class MatchUpResultImpl implements MatchUpResult {
 
     private String stratAName;
@@ -45,17 +43,18 @@ public class MatchUpResultImpl implements MatchUpResult {
 
         sb.append(String.format("%5s", "A:"));
         for (boolean stratAMove : allStratAMoves) {
-            sb.append(String.format("%4s", stratAMove ? "T" : "F"));
+            sb.append(String.format("%4s", stratAMove ? "C" : "D"));
         }
         sb.append(System.lineSeparator());
 
         sb.append(String.format("%5s", "B:"));
         for (boolean stratBMove : allStratBMoves) {
-            sb.append(String.format("%4s", stratBMove ? "T" : "F"));
+            sb.append(String.format("%4s", stratBMove ? "C" : "D"));
         }
         sb.append(System.lineSeparator());
 
-        sb.append(String.format("%s -> %d || %s -> %d", this.stratAName, this.stratAScore, this.stratBName, this.stratBScore))
+        sb.append(String.format("%s -> %d || %s -> %d", this.stratAName.replaceAll("Strategy", ""), this.stratAScore,
+                this.stratBName.replaceAll("Strategy", ""), this.stratBScore))
                 .append(System.lineSeparator());
 
 

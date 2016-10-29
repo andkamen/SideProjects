@@ -4,7 +4,9 @@ public interface Simulation extends Strategyable {
 
     String getName(); //TODO nameable interface?
 
+    int getGenerationSize();
+
     void run(int generationCount);
 
-    String print(boolean isVerboseMode);
+    String print(int genNum, boolean isVerboseMode);
 }

@@ -1,0 +1,18 @@
+Random 1
+TitForTat 1
+
+create sim test
+fill sim test file test
+run sim test 100
+print sim test verbose
+
+
+Random 1
+Grudger 1
+AlwaysCooperate 1
+AlwaysDefect 1
+SuspiciousTitForTat 1
+TitForTat 1
+TitForTwoTats 1
+TwoTitsForTat 1
+Gradual 1

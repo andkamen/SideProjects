@@ -20,7 +20,9 @@ public class Constants {
     //reading from file
     public static final String TEXT_FILE_EXTENSION = ".txt";
     //TODO might break if launched as exe in another folder? Create res folder at exe location or sth
-    public static final String RESOURCES_FOLDER_PATH = System.getProperty("user.dir") + "\\" + "res" + "\\";
+    public static final String INPUT_FOLDER_PATH = System.getProperty("user.dir") + "\\res\\input\\";
+
+    public static final String OUTPUT_FOLDER_PATH = System.getProperty("user.dir") + "\\res\\output\\";
 
 
     //TODO enums?

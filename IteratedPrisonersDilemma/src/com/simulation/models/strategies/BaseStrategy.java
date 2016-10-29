@@ -16,10 +16,10 @@ public abstract class BaseStrategy implements Strategy {
     public abstract boolean makeMove();
 
     @Override
-    public abstract void resetStrategy();
+    public abstract void updateOpponentMove(boolean opponentMove);
 
     @Override
-    public abstract void updateOpponentMove(boolean opponentMove);
+    public abstract void resetStrategy();
 
 //    @Override
 //    public String getName() {

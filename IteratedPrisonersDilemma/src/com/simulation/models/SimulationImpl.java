@@ -26,6 +26,10 @@ public class SimulationImpl implements Simulation {
         return this.name;
     }
 
+    public int getGenerationSize() {
+        return this.generations.size();
+    }
+
     //Add and remove strats from the generation 0 before a sim begins.
     //TODO add sim lock, auto lock after sim start, can't be unlocked after that point. (no adding/removing strats)
     @Override
@@ -86,7 +90,7 @@ public class SimulationImpl implements Simulation {
             String strategyName = strategyRelation[i];
             int strategyCount = (int) strategyDistribution[i];
             for (int j = 0; j < strategyCount; j++) {
-                nextGeneration.addStrategy(this.strategyFactory.buildStrategy(strategyName));
+                nextGeneration.addStrategy(this.strategyFactory.buildStrategy(strategyName.replace("Strategy", "")));
             }
         }
 
@@ -116,17 +120,13 @@ public class SimulationImpl implements Simulation {
         return strategyDistribution;
     }
 
-    public String print(boolean isVerboseMode) {
+    //TODO take out from here into the print command to avoid java out of memory
+    public String print(int genNum, boolean isVerboseMode) {
         StringBuilder sb = new StringBuilder();
-        //TODO work on formatting
-        sb.append(String.format("%s SIMULATION RESULTS", this.getName()))
+
+        sb.append(String.format("   Generation %d:", genNum + 1))
                 .append(System.lineSeparator());
-        //skips the last generation because it still hasn't played out
-        for (int i = 0; i < this.generations.size() - 1; i++) {
-            sb.append(String.format("   Generation %d:", i + 1))
-                    .append(System.lineSeparator());
-            sb.append(this.generations.get(i).print(isVerboseMode));
-        }
+        sb.append(this.generations.get(genNum).print(isVerboseMode));
 
         return sb.toString();
     }

@@ -27,12 +27,12 @@ public class FileFillCommand extends BaseCommand {
         String simulationName = arguments[1];
         String fileName = arguments[3] + Constants.TEXT_FILE_EXTENSION;
 
-        String path = Constants.RESOURCES_FOLDER_PATH + fileName;
+        String path = Constants.INPUT_FOLDER_PATH + fileName;
         List<String> lines = Files.readAllLines(Paths.get(path));
 
         for (String line : lines) {
             String[] args = line.split(Constants.SPACE_SPLIT_DELIMITER);
-            String strategyName = args[0] + "Strategy";
+            String strategyName = args[0];
             int strategyCount = 1;
             if (args.length > 1) {
                 strategyCount = Integer.parseInt(args[1]);

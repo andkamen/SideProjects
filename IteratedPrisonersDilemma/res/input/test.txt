@@ -1,0 +1,9 @@
+Random 20
+Grudger 20
+AlwaysCooperate 20
+AlwaysDefect 20
+SuspiciousTitForTat 20
+TitForTat 20
+TitForTwoTats 20
+TwoTitsForTat 20
+Gradual 20

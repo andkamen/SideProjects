@@ -3,9 +3,9 @@ package com.simulation.models.strategies;
 /**
  * This Strategy will always be selfish.
  */
-public class SelfishStrategy extends BaseStrategy {
+public class AlwaysDefectStrategy extends BaseStrategy {
 
-    public SelfishStrategy() {
+    public AlwaysDefectStrategy() {
     }
 
     @Override

@@ -15,11 +15,9 @@ import java.io.IOException;
 
 public class PrintCommand extends BaseCommand {
 
-    private OutputWriter consoleWriter;
 
-    public PrintCommand(SimulationData data, OutputWriter consoleWriter, String[] arguments) {
+    public PrintCommand(SimulationData data, String[] arguments) {
         super(data, arguments);
-        this.consoleWriter = consoleWriter;
     }
 
     @Override
@@ -54,9 +52,9 @@ public class PrintCommand extends BaseCommand {
     private String printTournamentData(Generation tournament, boolean isVerboseMode) {
         String fileName = tournament.getName() + "TournamentResults.txt";
         try {
-            File file = new File(Constants.RESOURCES_FOLDER_PATH + fileName);
+            File file = new File(Constants.OUTPUT_FOLDER_PATH + fileName);
 
-            // if file doesnt exists, then create it
+            // if file doesn't exists, then create it
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -73,12 +71,23 @@ public class PrintCommand extends BaseCommand {
         return String.format(Messages.SUCCESSFULLY_WROTE_RESULTS_TO_FILE, fileName);
     }
 
+    /*
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("%s SIMULATION RESULTS", this.getName()))
+                .append(System.lineSeparator());
+        //skips the last generation because it still hasn't played out
+        for (int i = 0; i < this.generations.size() - 1; i++) {
+            sb.append(String.format("   Generation %d:", i + 1))
+                    .append(System.lineSeparator());
+            sb.append(this.generations.get(i).print(isVerboseMode));
+        }
+     */
     private String printSimulationData(Simulation simulation, boolean isVerboseMode) {
         String fileName = simulation.getName() + "SimulationResults.txt";
         try {
-            File file = new File(Constants.RESOURCES_FOLDER_PATH + fileName);
+            File file = new File(Constants.OUTPUT_FOLDER_PATH + fileName);
 
-            // if file doesnt exists, then create it
+            // if file doesn't exists, then create it
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -86,7 +95,10 @@ public class PrintCommand extends BaseCommand {
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
 
-            bw.write(simulation.print(isVerboseMode));
+            bw.write(String.format("%s SIMULATION RESULTS %s", simulation.getName(), System.lineSeparator()));
+            for (int i = 0; i < simulation.getGenerationSize() - 1; i++) {
+                bw.write(simulation.print(i, isVerboseMode));
+            }
             bw.close();
 
         } catch (IOException e) {

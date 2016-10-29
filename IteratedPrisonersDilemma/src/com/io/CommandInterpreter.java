@@ -48,7 +48,7 @@ public class CommandInterpreter implements Interpreter {
                 command = new RunCommand(this.data, arguments);
                 break;
             case "print":
-                command = new PrintCommand(this.data, new ConsoleWriter(), arguments);
+                command = new PrintCommand(this.data, arguments);
                 break;
             case "help":
                 command = new HelpCommand(arguments);

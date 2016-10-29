@@ -3,9 +3,9 @@ package com.simulation.models.strategies;
 /**
  * This Strategy will always cooperate.
  */
-public class CooperativeStrategy extends BaseStrategy {
+public class AlwaysCooperateStrategy extends BaseStrategy {
 
-    public CooperativeStrategy() {
+    public AlwaysCooperateStrategy() {
 
     }
 
