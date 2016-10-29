@@ -3,16 +3,32 @@ TitForTat 1
 
 create sim test
 fill sim test file test
-run sim test 100
+run sim test 1
 print sim test verbose
 
 
-Random 1
-Grudger 1
 AlwaysCooperate 1
 AlwaysDefect 1
+FirmButFair 1
+Gradual 1
+Grudger 1
+HardMajority 1
+Prober 1
+Random 1
+SoftGrudger 1
+SoftMajority 1
 SuspiciousTitForTat 1
 TitForTat 1
 TitForTwoTats 1
 TwoTitsForTat 1
-Gradual 1
+
+
+Random 20
+Grudger 20
+AlwaysCooperate 20
+AlwaysDefect 20
+SuspiciousTitForTat 20
+TitForTat 20
+TitForTwoTats 20
+TwoTitsForTat 20
+Gradual 20

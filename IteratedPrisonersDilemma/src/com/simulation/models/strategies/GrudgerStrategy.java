@@ -27,6 +27,4 @@ public class GrudgerStrategy extends BaseStrategy {
     public void resetStrategy() {
         this.wasBetrayed = false;
     }
-
-
 }

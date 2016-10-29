@@ -21,11 +21,32 @@ public class StrategyFactoryImpl implements StrategyFactory {
             case "AlwaysDefect":
                 newStrategy = new AlwaysDefectStrategy();
                 break;
+            case "FirmButFair":
+                newStrategy = new FirmButFairStrategy();
+                break;
+            case "Gradual":
+                newStrategy = new GradualStrategy();
+                break;
             case "Grudger":
                 newStrategy = new GrudgerStrategy();
                 break;
+            case "HardMajority":
+                newStrategy = new HardMajorityStrategy();
+                break;
+            case "HardTitForTat":
+                newStrategy = new HardTitForTatStrategy();
+                break;
+            case "Prober":
+                newStrategy = new ProberStrategy();
+                break;
             case "Random":
                 newStrategy = new RandomStrategy();
+                break;
+            case "SoftMajority":
+                newStrategy = new SoftMajorityStrategy();
+                break;
+            case "SoftGrudger":
+                newStrategy = new SoftGrudgerStrategy();
                 break;
             case "SuspiciousTitForTat":
                 newStrategy = new SuspiciousTitForTatStrategy();
@@ -38,9 +59,6 @@ public class StrategyFactoryImpl implements StrategyFactory {
                 break;
             case "TwoTitsForTat":
                 newStrategy = new TwoTitsForTatStrategy();
-                break;
-            case "Gradual":
-                newStrategy = new GradualStrategy();
                 break;
             default:
                 throw new InvalidStrategyNameException(strategyType);
