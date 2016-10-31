@@ -9,7 +9,4 @@ public class MissingCommandArgumentsException extends RuntimeException {
         super(MISSING_COMMAND_ARGUMENTS);
     }
 
-    public MissingCommandArgumentsException(String message) {
-        super(message);
-    }
 }

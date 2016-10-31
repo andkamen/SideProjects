@@ -1,6 +1,7 @@
 package com.simulation.models;
 
 import com.core.contracts.StrategyFactory;
+import com.exceptions.LockedSimulationException;
 import com.simulation.contracts.Generation;
 import com.simulation.contracts.Simulation;
 import com.simulation.contracts.Strategy;
@@ -12,12 +13,14 @@ public class SimulationImpl implements Simulation {
     private String name;
     private List<Generation> generations;
     private StrategyFactory strategyFactory;
+    private boolean isLocked; //locks simulation for addition or removal of strategies after its started.
 
     public SimulationImpl(String name, StrategyFactory strategyFactory) {
         this.name = name;
         this.strategyFactory = strategyFactory;
         this.generations = new ArrayList<>();
         this.generations.add(new GenerationImpl());
+        this.isLocked = false;
     }
 
 
@@ -34,11 +37,18 @@ public class SimulationImpl implements Simulation {
     //TODO add sim lock, auto lock after sim start, can't be unlocked after that point. (no adding/removing strats)
     @Override
     public String addStrategy(Strategy strategy) {
+        if (this.isLocked){
+            throw new LockedSimulationException(this.getName());
+        }
         return this.generations.get(0).addStrategy(strategy);
     }
 
+    //TODO add remove command?
     @Override
     public String removeStrategy(String name) {
+        if (this.isLocked){
+            throw new LockedSimulationException(this.getName());
+        }
         return this.generations.get(0).removeStrategy(name);
     }
 
@@ -46,6 +56,7 @@ public class SimulationImpl implements Simulation {
     // for how to represent %'s as whole numbers that add to 100%
     @Override
     public void run(int generationCount) {
+        this.isLocked = true;
         Generation nextGeneration = null;
 
         for (int i = 0; i < generationCount; i++) {

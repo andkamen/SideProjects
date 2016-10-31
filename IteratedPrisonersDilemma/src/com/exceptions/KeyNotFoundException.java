@@ -8,8 +8,4 @@ public class KeyNotFoundException extends RuntimeException {
     public KeyNotFoundException() {
         super(NOT_REGISTERED_IN_DATA);
     }
-
-    public KeyNotFoundException(String message) {
-        super(message);
-    }
 }
