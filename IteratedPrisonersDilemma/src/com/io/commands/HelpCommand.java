@@ -25,7 +25,8 @@ public class HelpCommand extends BaseCommand {
 
         helpBuilder.append("create simtype name - creates a simulation or tournament").append(System.lineSeparator());
         helpBuilder.append("fill simtype name mode data - fill an already created sim with strategies").append(System.lineSeparator());
-        helpBuilder.append("run simtype runCount - run a simulation. Run count is optional parameter").append(System.lineSeparator());
+        helpBuilder.append("run simtype runCount - run a simulation. Run count is an optional parameter").append(System.lineSeparator());
+        helpBuilder.append("print simtype name verbose - print the results of a simulation. Verbose is an optional parameter").append(System.lineSeparator());
         helpBuilder.append("help verbose - Verbose is optional parameter and displays more info").append(System.lineSeparator());
         return helpBuilder.toString();
     }
@@ -35,6 +36,7 @@ public class HelpCommand extends BaseCommand {
         helpBuilder.append("create simtype name - creates a simulation or tournament").append(System.lineSeparator());
         helpBuilder.append("fill simtype name mode data - fill an already created sim with strategies").append(System.lineSeparator());
         helpBuilder.append("run simtype runCount - run a simulation. Run count is optional parameter").append(System.lineSeparator());
+        helpBuilder.append("print simtype name verbose - print the results of a simulation. Verbose is an optional parameter").append(System.lineSeparator());
         helpBuilder.append("help verbose - Verbose is optional parameter and displays more info").append(System.lineSeparator());
         helpBuilder.append("Legend:").append(System.lineSeparator());
         helpBuilder.append(String.format("simtype: %s / %s  . Specifies the type of sim accessed/created/ran",
