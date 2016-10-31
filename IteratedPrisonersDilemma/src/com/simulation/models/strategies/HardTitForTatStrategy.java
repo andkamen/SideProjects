@@ -1,12 +1,14 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
  * Cooperates on the first move, and defects if the opponent has defects on any of the previous three moves, else cooperates.
  */
-public class HardTitForTatStrategy extends BaseStrategy {
+public class HardTitForTatStrategy implements Strategy {
 
     private Queue<Boolean> previousOpponentMoves;
     private boolean isFirstTurn;

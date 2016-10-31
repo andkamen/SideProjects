@@ -1,9 +1,11 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * This Strategy will always cooperate.
  */
-public class AlwaysCooperateStrategy extends BaseStrategy {
+public class AlwaysCooperateStrategy implements Strategy {
 
     public AlwaysCooperateStrategy() {
 

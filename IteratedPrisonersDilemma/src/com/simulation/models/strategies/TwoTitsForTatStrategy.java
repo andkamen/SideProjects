@@ -1,9 +1,11 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * Same as Tit for Tat except that it defects twice when the opponent defects.
  */
-public class TwoTitsForTatStrategy extends BaseStrategy {
+public class TwoTitsForTatStrategy implements Strategy {
 
     private boolean isFirstMove;
     private int consecutivePunishMoves;

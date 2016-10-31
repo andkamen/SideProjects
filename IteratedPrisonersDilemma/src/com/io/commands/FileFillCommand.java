@@ -36,7 +36,9 @@ public class FileFillCommand extends BaseCommand {
             int strategyCount = 1;
             if (args.length > 1) {
                 strategyCount = Integer.parseInt(args[1]);
-                //todo check negative counts
+                if(strategyCount<=0){
+                    throw new IndexOutOfBoundsException(String.format("%s count cannot be less than 1",strategyName));
+                }
             }
 
             //TODO code duplication.

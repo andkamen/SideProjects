@@ -1,9 +1,11 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * This Strategy will always be selfish.
  */
-public class AlwaysDefectStrategy extends BaseStrategy {
+public class AlwaysDefectStrategy implements Strategy {
 
     public AlwaysDefectStrategy() {
     }

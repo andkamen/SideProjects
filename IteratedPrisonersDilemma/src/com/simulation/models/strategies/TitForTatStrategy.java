@@ -1,10 +1,12 @@
 package com.simulation.models.strategies;
 
 
+import com.simulation.contracts.Strategy;
+
 /**
  * Cooperates on the first move, then copies the opponent’s last move.
  */
-public class TitForTatStrategy extends BaseStrategy {
+public class TitForTatStrategy implements Strategy {
 
     private boolean isFirstMove;
     private boolean lastOpponentMove;

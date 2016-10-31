@@ -212,7 +212,7 @@ public class GenerationImpl implements Generation {
                 ));
 
         for (Map.Entry<String, Integer> entry : this.strategyScores.entrySet()) {
-            //TODO add constant for alignment length
+            //TODO add constant for alignment length?
             sb.append(String.format("%-30s (%3d) -> %9d", entry.getKey(), this.strategyCount.get(entry.getKey()), entry.getValue()))
                     .append(System.lineSeparator());
         }

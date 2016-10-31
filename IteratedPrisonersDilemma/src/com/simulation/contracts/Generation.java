@@ -6,7 +6,7 @@ import java.util.Map;
  * Interface that Generations should implement.
  * Match up various Strategies vs one another to see how well they do.
  */
-public interface Generation extends Strategyable {
+public interface Generation extends AddStrategy,RemoveStrategy {
 
     Map<String, Integer> getStrategyScores();
 

@@ -2,7 +2,6 @@ package com.io.commands;
 
 import com.core.contracts.SimulationData;
 import com.exceptions.InvalidInputException;
-import com.io.contracts.OutputWriter;
 import com.simulation.contracts.Generation;
 import com.simulation.contracts.Simulation;
 import com.utilities.Constants;
@@ -47,8 +46,6 @@ public class PrintCommand extends BaseCommand {
         return consoleOutput.toString();
     }
 
-
-    //TODO merge print data files?
     private String printTournamentData(Generation tournament, boolean isVerboseMode) {
         String fileName = tournament.getName() + "TournamentResults.txt";
         try {
@@ -71,17 +68,6 @@ public class PrintCommand extends BaseCommand {
         return String.format(Messages.SUCCESSFULLY_WROTE_RESULTS_TO_FILE, fileName);
     }
 
-    /*
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s SIMULATION RESULTS", this.getName()))
-                .append(System.lineSeparator());
-        //skips the last generation because it still hasn't played out
-        for (int i = 0; i < this.generations.size() - 1; i++) {
-            sb.append(String.format("   Generation %d:", i + 1))
-                    .append(System.lineSeparator());
-            sb.append(this.generations.get(i).print(isVerboseMode));
-        }
-     */
     private String printSimulationData(Simulation simulation, boolean isVerboseMode) {
         String fileName = simulation.getName() + "SimulationResults.txt";
         try {

@@ -1,9 +1,11 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * Same as Tit for Tat, except that it defects on the first move
  */
-public class SuspiciousTitForTatStrategy extends BaseStrategy {
+public class SuspiciousTitForTatStrategy implements Strategy {
 
     private boolean isFirstMove;
     private boolean lastOpponentMove;

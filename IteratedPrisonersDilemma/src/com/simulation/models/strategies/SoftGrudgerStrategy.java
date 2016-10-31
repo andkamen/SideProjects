@@ -1,9 +1,11 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * Like Grudger except that the opponent is punished with D,D,D,D,C,C.
  */
-public class SoftGrudgerStrategy extends BaseStrategy {
+public class SoftGrudgerStrategy implements Strategy {
 
     private boolean punishmentInProgress;
     private int currentPunishmentTurn;

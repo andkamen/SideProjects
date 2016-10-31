@@ -1,10 +1,12 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * Starts with D,C,C and then defects if the opponent has cooperated in the second and third move;
  * otherwise, it plays Tit For Tat.
  */
-public class ProberStrategy extends BaseStrategy {
+public class ProberStrategy implements Strategy {
 
     private boolean lastOpponentMove;
     private boolean[] openingMoves = {false, true, true};

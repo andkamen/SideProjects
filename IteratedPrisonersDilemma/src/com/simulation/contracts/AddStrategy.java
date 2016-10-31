@@ -1,8 +1,6 @@
 package com.simulation.contracts;
 
-public interface Strategyable {
+public interface AddStrategy {
 
     String addStrategy(Strategy strategy);
-
-    String removeStrategy(String simpleName);
 }

@@ -1,11 +1,13 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * Cooperates on the first move, and cooperates as long as the opponent cooperates.
  * After the first defection of the other player, it defects one time and cooperates two times;
  * After the nth defection it reacts with n consecutive defections and then calms down its opponent with two cooperations.
  */
-public class GradualStrategy extends BaseStrategy {
+public class GradualStrategy implements Strategy {
 
     private int maxDefectionCount;
     private boolean punishmentInProgress;

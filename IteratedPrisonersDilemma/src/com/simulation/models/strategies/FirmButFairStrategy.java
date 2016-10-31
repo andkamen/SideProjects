@@ -1,9 +1,11 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * Cooperates on the first move, and cooperates except after receiving a sucker payoff.
  */
-public class FirmButFairStrategy extends BaseStrategy {
+public class FirmButFairStrategy implements Strategy {
 
     private boolean isFirstMove;
     private boolean lastOpponentMove;

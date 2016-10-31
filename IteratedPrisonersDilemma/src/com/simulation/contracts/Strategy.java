@@ -4,12 +4,6 @@ package com.simulation.contracts;
  * Interface that each Prisoner's Dilema Strategy should implement
  */
 public interface Strategy {
-//    /**
-//     * A getter for the name of the Strategy object.
-//     *
-//     * @return A string containing the name of the Strategy object.
-//     */
-//    String getName();
 
     /**
      * Contains the logic of the strategy. The boolean it returns is the decision.

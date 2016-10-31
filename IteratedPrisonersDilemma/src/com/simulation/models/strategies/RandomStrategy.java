@@ -1,11 +1,13 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 import java.util.Random;
 
 /**
  * This Strategy will be random and unpredictable.
  */
-public class RandomStrategy extends BaseStrategy {
+public class RandomStrategy implements Strategy {
     private Random rand;
 
     public RandomStrategy() {

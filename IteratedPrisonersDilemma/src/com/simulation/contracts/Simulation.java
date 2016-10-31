@@ -1,8 +1,8 @@
 package com.simulation.contracts;
 
-public interface Simulation extends Strategyable {
+public interface Simulation extends AddStrategy, RemoveStrategy{
 
-    String getName(); //TODO nameable interface?
+    String getName();
 
     int getGenerationSize();
 

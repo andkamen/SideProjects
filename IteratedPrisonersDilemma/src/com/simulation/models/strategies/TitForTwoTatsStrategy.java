@@ -1,9 +1,11 @@
 package com.simulation.models.strategies;
 
+import com.simulation.contracts.Strategy;
+
 /**
  * Cooperates on the first move, and defects only when the opponent defects two times.
  */
-public class TitForTwoTatsStrategy extends BaseStrategy {
+public class TitForTwoTatsStrategy implements Strategy {
 
     private int opponentConsecutiveDefectCount;
 

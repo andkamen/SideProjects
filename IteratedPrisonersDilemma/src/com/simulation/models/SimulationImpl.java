@@ -120,7 +120,6 @@ public class SimulationImpl implements Simulation {
         return strategyDistribution;
     }
 
-    //TODO take out from here into the print command to avoid java out of memory
     public String print(int genNum, boolean isVerboseMode) {
         StringBuilder sb = new StringBuilder();
 
