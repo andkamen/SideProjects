@@ -63,7 +63,6 @@ public class StrategyFactoryImpl implements StrategyFactory {
             default:
                 throw new InvalidStrategyNameException(strategyType);
         }
-        //TitForTwoTatsStrategy
         return newStrategy;
     }
 }

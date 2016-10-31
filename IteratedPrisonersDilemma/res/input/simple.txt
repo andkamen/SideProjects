@@ -1,5 +1,9 @@
-create sim test
-fill sim test file test
-run sim test 10
-print sim test
+create sim allStrats
+fill sim allStrats file 1v1
+run sim allStrats 10
+print sim allStrats
 
+create tournament 1v1
+fill tournament 1v1 file 1v1
+run tournament 1v1 10
+print tournament 1v1 verbose

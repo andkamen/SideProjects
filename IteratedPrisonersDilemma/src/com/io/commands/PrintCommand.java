@@ -58,6 +58,8 @@ public class PrintCommand extends BaseCommand {
 
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
+
+            bw.write(String.format("%s TOURNAMENT RESULTS %s", tournament.getName().toUpperCase(), System.lineSeparator()));
             bw.write(tournament.print(isVerboseMode));
             bw.close();
 
@@ -81,7 +83,7 @@ public class PrintCommand extends BaseCommand {
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
 
-            bw.write(String.format("%s SIMULATION RESULTS %s", simulation.getName(), System.lineSeparator()));
+            bw.write(String.format("%s SIMULATION RESULTS %s", simulation.getName().toUpperCase(), System.lineSeparator()));
             for (int i = 0; i < simulation.getGenerationSize() - 1; i++) {
                 bw.write(simulation.print(i, isVerboseMode));
             }
