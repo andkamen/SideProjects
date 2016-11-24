@@ -34,7 +34,6 @@ public class SimulationImpl implements Simulation {
     }
 
     //Add and remove strats from the generation 0 before a sim begins.
-    //TODO add sim lock, auto lock after sim start, can't be unlocked after that point. (no adding/removing strats)
     @Override
     public String addStrategy(Strategy strategy) {
         if (this.isLocked){
@@ -104,7 +103,6 @@ public class SimulationImpl implements Simulation {
                 nextGeneration.addStrategy(this.strategyFactory.buildStrategy(strategyName.replace("Strategy", "")));
             }
         }
-
         return nextGeneration;
     }
 
@@ -140,5 +138,4 @@ public class SimulationImpl implements Simulation {
 
         return sb.toString();
     }
-
 }
