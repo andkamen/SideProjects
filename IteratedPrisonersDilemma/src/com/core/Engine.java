@@ -1,23 +1,23 @@
 package com.core;
 
-import com.io.commands.contracts.Command;
-import com.io.contracts.Interpreter;
 import com.core.contracts.EngineInterface;
 import com.core.contracts.SimulationData;
 import com.core.contracts.StrategyFactory;
 import com.io.CommandInterpreter;
-import com.io.ConsoleReader;
-import com.io.ConsoleWriter;
-import com.io.contracts.InputReader;
-import com.io.contracts.OutputWriter;
+import com.io.ConsoleIOImpl;
+import com.io.FileIOImpl;
+import com.io.commands.contracts.Command;
+import com.io.contracts.ConsoleIO;
+import com.io.contracts.FileIO;
+import com.io.contracts.Interpreter;
 import com.utilities.Constants;
 
 import java.util.Arrays;
 
 public class Engine implements EngineInterface {
 
-    private InputReader consoleReader;
-    private OutputWriter consoleWriter;
+    private ConsoleIO consoleIO;
+    private FileIO fileIO;
     private StrategyFactory strategyFactory;
     private SimulationData data;
     private Interpreter commandInterpreter;
@@ -26,11 +26,11 @@ public class Engine implements EngineInterface {
 
 
     public Engine() {
-        this.consoleReader = new ConsoleReader();
-        this.consoleWriter = new ConsoleWriter();
+        this.consoleIO = new ConsoleIOImpl();
+        this.fileIO = new FileIOImpl();
         this.strategyFactory = new StrategyFactoryImpl();
         this.data = new SimulationDataImpl();
-        this.commandInterpreter = new CommandInterpreter(this.data, this.strategyFactory);
+        this.commandInterpreter = new CommandInterpreter(this.data, this.strategyFactory,this.fileIO);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Engine implements EngineInterface {
         this.isRunning = true;
 
         while (this.isRunning) {
-            String inputLine = this.consoleReader.readLine();
+            String inputLine = this.consoleIO.readLine();
 
             this.processInput(inputLine);
         }
@@ -63,9 +63,9 @@ public class Engine implements EngineInterface {
             Command command = commandInterpreter.dispatchCommand(commandName, filteredArgs);
 
             String commandResult = command.execute();
-            this.consoleWriter.writeLine(commandResult);
+            this.consoleIO.writeLine(commandResult);
         } catch (Exception e) {
-            this.consoleWriter.writeLine(e.getMessage());
+            this.consoleIO.writeLine(e.getMessage());
         }
     }
 }

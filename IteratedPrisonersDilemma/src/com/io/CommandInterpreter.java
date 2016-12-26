@@ -4,6 +4,7 @@ import com.exceptions.InvalidInputException;
 import com.exceptions.MissingCommandArgumentsException;
 import com.io.commands.*;
 import com.io.commands.contracts.Command;
+import com.io.contracts.FileIO;
 import com.io.contracts.Interpreter;
 import com.core.contracts.SimulationData;
 import com.core.contracts.StrategyFactory;
@@ -13,10 +14,12 @@ public class CommandInterpreter implements Interpreter {
 
     private SimulationData data;
     private StrategyFactory strategyFactory;
+    private FileIO fileIO;
 
-    public CommandInterpreter(SimulationData data, StrategyFactory strategyFactory) {
+    public CommandInterpreter(SimulationData data, StrategyFactory strategyFactory, FileIO fileIO) {
         this.data = data;
         this.strategyFactory = strategyFactory;
+        this.fileIO = fileIO;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class CommandInterpreter implements Interpreter {
                 command = new RunCommand(this.data, arguments);
                 break;
             case "print":
-                command = new PrintCommand(this.data, arguments);
+                command = new PrintCommand(this.data, arguments, this.fileIO);
                 break;
             case "help":
                 command = new HelpCommand(arguments);

@@ -2,21 +2,21 @@ package com.io.commands;
 
 import com.core.contracts.SimulationData;
 import com.exceptions.InvalidInputException;
+import com.io.contracts.FileIO;
 import com.simulation.contracts.Generation;
 import com.simulation.contracts.Simulation;
 import com.utilities.Constants;
 import com.utilities.Messages;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class PrintCommand extends BaseCommand {
 
+    private FileIO fileIO;
 
-    public PrintCommand(SimulationData data, String[] arguments) {
+    public PrintCommand(SimulationData data, String[] arguments, FileIO fileIO) {
         super(data, arguments);
+        this.fileIO = fileIO;
     }
 
     @Override
@@ -48,50 +48,72 @@ public class PrintCommand extends BaseCommand {
 
     private String printTournamentData(Generation tournament, boolean isVerboseMode) {
         String fileName = tournament.getName() + "TournamentResults.txt";
+        String filePath = Constants.OUTPUT_FOLDER_PATH + fileName;
+
+        String info = String.format("%s TOURNAMENT RESULTS %s", tournament.getName().toUpperCase(), System.lineSeparator());
         try {
-            File file = new File(Constants.OUTPUT_FOLDER_PATH + fileName);
-
-            // if file doesn't exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            bw.write(String.format("%s TOURNAMENT RESULTS %s", tournament.getName().toUpperCase(), System.lineSeparator()));
-            bw.write(tournament.print(isVerboseMode));
-            bw.close();
-
-        } catch (IOException e) {
+            this.fileIO.write(info + tournament.print(isVerboseMode), filePath, false);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+//        try {
+//            File file = new File(Constants.OUTPUT_FOLDER_PATH + fileName);
+//
+//            // if file doesn't exists, then create it
+//            if (!file.exists()) {
+//                file.createNewFile();
+//            }
+//
+//            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//            BufferedWriter bw = new BufferedWriter(fw);
+//
+//            bw.write(String.format("%s TOURNAMENT RESULTS %s", tournament.getName().toUpperCase(), System.lineSeparator()));
+//            bw.write(tournament.print(isVerboseMode));
+//            bw.close();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         return String.format(Messages.SUCCESSFULLY_WROTE_RESULTS_TO_FILE, fileName);
     }
 
     private String printSimulationData(Simulation simulation, boolean isVerboseMode) {
         String fileName = simulation.getName() + "SimulationResults.txt";
+        String filePath = Constants.OUTPUT_FOLDER_PATH + fileName;
+
+        String info = String.format("%s SIMULATION RESULTS %s", simulation.getName().toUpperCase(), System.lineSeparator());
         try {
-            File file = new File(Constants.OUTPUT_FOLDER_PATH + fileName);
-
-            // if file doesn't exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-
-            bw.write(String.format("%s SIMULATION RESULTS %s", simulation.getName().toUpperCase(), System.lineSeparator()));
+            this.fileIO.write(info, filePath, false);
             for (int i = 0; i < simulation.getGenerationSize() - 1; i++) {
-                bw.write(simulation.print(i, isVerboseMode));
+                this.fileIO.write(simulation.print(i, isVerboseMode),filePath,true);
             }
-            bw.close();
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+//        try {
+//            File file = new File(Constants.OUTPUT_FOLDER_PATH + fileName);
+//
+//            // if file doesn't exists, then create it
+//            if (!file.exists()) {
+//                file.createNewFile();
+//            }
+//
+//            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//            BufferedWriter bw = new BufferedWriter(fw);
+//
+//            bw.write(String.format("%s SIMULATION RESULTS %s", simulation.getName().toUpperCase(), System.lineSeparator()));
+//            for (int i = 0; i < simulation.getGenerationSize() - 1; i++) {
+//                bw.write(simulation.print(i, isVerboseMode));
+//            }
+//            bw.close();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         return String.format(Messages.SUCCESSFULLY_WROTE_RESULTS_TO_FILE, fileName);
     }

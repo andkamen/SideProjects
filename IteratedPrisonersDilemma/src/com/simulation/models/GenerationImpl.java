@@ -1,7 +1,6 @@
 package com.simulation.models;
 
 import com.exceptions.InsufficientRegisteredStrategiesException;
-import com.io.ConsoleWriter;
 import com.simulation.contracts.MatchUpResult;
 import com.simulation.contracts.Strategy;
 import com.simulation.contracts.Generation;
