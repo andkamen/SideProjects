@@ -41,7 +41,8 @@ public class FileFillCommand extends BaseCommand {
                 }
             }
 
-            //TODO code duplication.
+            //
+            // TODO code duplication. Abstract fill command?
             /*
             moving the code to a function doesn't solve the problem. Still needs to be defined in the command.
             Moving it to base command means it has to know about factories and every other command will have access to it too.

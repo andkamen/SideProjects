@@ -46,6 +46,7 @@ public class PrintCommand extends BaseCommand {
         return consoleOutput.toString();
     }
 
+
     private String printTournamentData(Generation tournament, boolean isVerboseMode) {
         String fileName = tournament.getName() + "TournamentResults.txt";
         String filePath = Constants.OUTPUT_FOLDER_PATH + fileName;
@@ -56,25 +57,6 @@ public class PrintCommand extends BaseCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        try {
-//            File file = new File(Constants.OUTPUT_FOLDER_PATH + fileName);
-//
-//            // if file doesn't exists, then create it
-//            if (!file.exists()) {
-//                file.createNewFile();
-//            }
-//
-//            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-//            BufferedWriter bw = new BufferedWriter(fw);
-//
-//            bw.write(String.format("%s TOURNAMENT RESULTS %s", tournament.getName().toUpperCase(), System.lineSeparator()));
-//            bw.write(tournament.print(isVerboseMode));
-//            bw.close();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         return String.format(Messages.SUCCESSFULLY_WROTE_RESULTS_TO_FILE, fileName);
     }
@@ -93,29 +75,6 @@ public class PrintCommand extends BaseCommand {
             e.printStackTrace();
         }
 
-
-//        try {
-//            File file = new File(Constants.OUTPUT_FOLDER_PATH + fileName);
-//
-//            // if file doesn't exists, then create it
-//            if (!file.exists()) {
-//                file.createNewFile();
-//            }
-//
-//            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-//            BufferedWriter bw = new BufferedWriter(fw);
-//
-//            bw.write(String.format("%s SIMULATION RESULTS %s", simulation.getName().toUpperCase(), System.lineSeparator()));
-//            for (int i = 0; i < simulation.getGenerationSize() - 1; i++) {
-//                bw.write(simulation.print(i, isVerboseMode));
-//            }
-//            bw.close();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         return String.format(Messages.SUCCESSFULLY_WROTE_RESULTS_TO_FILE, fileName);
     }
-
 }

@@ -51,8 +51,6 @@ public class SimulationImpl implements Simulation {
         return this.generations.get(0).removeStrategy(name);
     }
 
-    //http://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
-    // for how to represent %'s as whole numbers that add to 100%
     @Override
     public void run(int generationCount) {
         this.isLocked = true;
@@ -68,7 +66,7 @@ public class SimulationImpl implements Simulation {
     }
 
     /// http://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
-    // the answer with 7 points has the algorithm used for rounding up the percentages with least amount of error.
+    // the answer by paxdiablo has the algorithm used for rounding up the percentages with least amount of error.
     private Generation setUpNextGeneration(Generation currentGeneration) {
         Generation nextGeneration = new GenerationImpl();
 

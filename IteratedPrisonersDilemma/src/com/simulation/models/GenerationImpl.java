@@ -30,6 +30,7 @@ public class GenerationImpl implements Generation {
         this.matchUpResults = new ArrayList<>();
         this.rand = new Random();
         this.name = null;
+
         this.setNewRoundCount();
     }
 
@@ -111,7 +112,7 @@ public class GenerationImpl implements Generation {
 
         Strategy stratA = null;
         Strategy stratB = null;
-        int tempValue;
+        int strategyScore;
         MatchUpResult matchUpResult;
 
         for (int i = 0; i < this.strategies.size(); i++) {
@@ -126,11 +127,11 @@ public class GenerationImpl implements Generation {
                 this.matchUpResults.add(matchUpResult);
                 // System.out.println(matchUpResult.toString());
 
-                tempValue = this.strategyScores.get(stratA.getClass().getSimpleName()) + matchUpResult.getStratAScore();
-                this.strategyScores.put(stratA.getClass().getSimpleName(), tempValue);
+                strategyScore = this.strategyScores.get(stratA.getClass().getSimpleName()) + matchUpResult.getStratAScore();
+                this.strategyScores.put(stratA.getClass().getSimpleName(), strategyScore);
 
-                tempValue = this.strategyScores.get(stratB.getClass().getSimpleName()) + matchUpResult.getStratBScore();
-                this.strategyScores.put(stratB.getClass().getSimpleName(), tempValue);
+                strategyScore = this.strategyScores.get(stratB.getClass().getSimpleName()) + matchUpResult.getStratBScore();
+                this.strategyScores.put(stratB.getClass().getSimpleName(), strategyScore);
                 //System.out.println();
             }
         }
@@ -162,6 +163,7 @@ public class GenerationImpl implements Generation {
             matchUpResult[0] += roundResult[0];
             matchUpResult[1] += roundResult[1];
         }
+
         MatchUpResult result = new MatchUpResultImpl(stratA.getClass().getSimpleName(), stratB.getClass().getSimpleName(), allStratAMoves, allStratBMoves, matchUpResult[0], matchUpResult[1]);
 
         return result;

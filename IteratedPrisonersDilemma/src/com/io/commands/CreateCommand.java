@@ -22,6 +22,7 @@ public class CreateCommand extends BaseCommand {
         String simulationType = arguments[0];
         String name = arguments[1];
 
+        
         switch (simulationType.toLowerCase()) {
             case Constants.SIMULATION_TYPE_SIMULATION:
                 return this.getData().addSimulation(new SimulationImpl(name, this.strategyFactory));

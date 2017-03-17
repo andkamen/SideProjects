@@ -3,7 +3,7 @@ package com.exceptions;
 public class DuplicateEntryInStructureException extends RuntimeException {
 
     private static final String DUPLICATE_ENTRY =
-            "'%s' is already registed as a %s.";
+            "'%s' is already registered as a %s.";
 
     public DuplicateEntryInStructureException(
             String entryName, String structureName) {
