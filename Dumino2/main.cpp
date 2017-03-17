@@ -71,10 +71,13 @@ static inline void loadbar(unsigned int x, unsigned int n, unsigned int width = 
     int c = (int) (ratio * width);
 
     cout << setw(3) << (int) (ratio * 100) << "% [";
-    for (int x = 0; x < c; x++) cout << "=";
-    for (unsigned int x = c; x < width; x++) cout << " ";
+    for (int x = 0; x < c; x++) {
+        cout << "=";
+    }
+    for (unsigned int x = c; x < width; x++) {
+        cout << " ";
+    }
     cout << "]\r" << flush;
-
 }
 
 //loads the dictionary words
