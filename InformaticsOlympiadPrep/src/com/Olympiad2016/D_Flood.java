@@ -62,7 +62,15 @@ public class D_Flood {
 
         @Override
         public int compareTo(Edge other) {
-            return Integer.compare(this.weight, other.weight);
+
+            if (!this.isFlooded && other.isFlooded) {
+                return -1;
+            } else if (this.isFlooded && !other.isFlooded) {
+                return 1;
+            } else {
+                return Integer.compare(this.weight, other.weight);
+
+            }
         }
     }
 
@@ -131,14 +139,11 @@ public class D_Flood {
             int result = 0;
             List<Edge> spanningTree = kruskal(nodeCount, edges);
             for (Edge edge : spanningTree) {
-                if(edge.isFlooded){
-                    result+=edge.getWeight();
+                if (edge.isFlooded) {
+                    result += edge.getWeight();
                 }
             }
-
             System.out.println(result);
-
         }
-
     }
 }
