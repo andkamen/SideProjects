@@ -58,11 +58,8 @@ public class Engine {
                 default:
                     throw new InvalidInputException(commandName.toLowerCase());
             }
-
-
         } catch (Exception e) {
             this.consoleIO.writeLine(e.getMessage());
         }
     }
-
 }
