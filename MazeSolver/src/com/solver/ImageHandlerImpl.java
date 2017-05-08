@@ -22,12 +22,14 @@ public class ImageHandlerImpl implements ImageHandler {
 
 
     @Override
-    public void parseImage(String name) throws IOException {
+    public Maze parseImage(String name) throws IOException {
         loadImage(name);
 
         createGrid();
         markNodeLocations();
         connectNodes();
+
+        return this.maze;
 
 
 //        for (int[] ints : grid) {

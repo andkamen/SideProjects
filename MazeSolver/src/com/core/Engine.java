@@ -1,5 +1,8 @@
 package com.core;
 
+import com.algorithms.BreadthFirst;
+import com.dataStructures.Maze;
+import com.dataStructures.Node;
 import com.exceptions.InvalidInputException;
 import com.io.ConsoleIOImpl;
 import com.io.contracts.ConsoleIO;
@@ -8,6 +11,7 @@ import com.solver.ImageHandlerImpl;
 import com.utilities.Constants;
 
 import java.util.Arrays;
+import java.util.Queue;
 
 public class Engine {
 
@@ -51,9 +55,12 @@ public class Engine {
 //            String commandResult = command.execute();
 //            this.consoleIO.writeLine(commandResult);
 
+
             switch (commandName) {
                 case "solve":
-                    this.imageHandler.parseImage(filteredArgs[0]);
+                    Maze maze = this.imageHandler.parseImage(filteredArgs[0]);
+                    Queue<Node> path = new BreadthFirst().solve(maze);
+
                     break;
                 default:
                     throw new InvalidInputException(commandName.toLowerCase());
