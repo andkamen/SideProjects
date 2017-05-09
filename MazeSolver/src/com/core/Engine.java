@@ -1,6 +1,7 @@
 package com.core;
 
 import com.algorithms.BreadthFirst;
+import com.algorithms.DepthFirst;
 import com.dataStructures.Maze;
 import com.dataStructures.Node;
 import com.exceptions.InvalidInputException;
@@ -59,7 +60,10 @@ public class Engine {
             switch (commandName) {
                 case "solve":
                     Maze maze = this.imageHandler.parseImage(filteredArgs[0]);
-                    Queue<Node> path = new BreadthFirst().solve(maze);
+                    Queue<Node> path = new DepthFirst().solve(maze);
+                    //Queue<Node> path = new BreadthFirst().solve(maze);
+
+                    this.imageHandler.drawPath(path);
 
                     break;
                 default:

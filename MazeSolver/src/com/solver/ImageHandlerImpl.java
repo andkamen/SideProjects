@@ -6,13 +6,20 @@ import com.exceptions.InvalidImageFormat;
 import com.utilities.Constants;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Queue;
 
 public class ImageHandlerImpl implements ImageHandler {
 
     private BufferedImage image;
+    private BufferedImage pathImage;
+    private String imageName;
     private int[][] grid;
     private int rows;
     private int cols;
@@ -23,14 +30,12 @@ public class ImageHandlerImpl implements ImageHandler {
 
     @Override
     public Maze parseImage(String name) throws IOException {
+        this.imageName = name;
         loadImage(name);
 
         createGrid();
         markNodeLocations();
         connectNodes();
-
-        return this.maze;
-
 
 //        for (int[] ints : grid) {
 //            for (int num : ints) {
@@ -38,16 +43,53 @@ public class ImageHandlerImpl implements ImageHandler {
 //            }
 //            System.out.println();
 //        }
-//        System.out.println();
+        System.out.println();
+
+        return this.maze;
     }
 
     @Override
-    public void drawPath() {
+    public void drawPath(Queue<Node> path) throws IOException {
+        //Make a copy of original image
+        this.pathImage = new BufferedImage(this.image.getWidth(), this.image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        for (int i = 0; i < this.image.getHeight(); i++) {
+            for (int j = 0; j < this.image.getWidth(); j++) {
+                this.pathImage.setRGB(i, j, this.image.getRGB(i, j));
+            }
+        }
+
+        ArrayList<Node> resultPath = new ArrayList<>(path.size());
+        resultPath.addAll(path);
+
+        int length = resultPath.size();
+
+        for (int i = 0; i < length - 1; i++) {
+
+            Node a = resultPath.get(i);
+            Node b = resultPath.get(i + 1);
+
+            // Blue - red
+            int blue = (int) (((double) i / length) * 255);
+            Color color = new Color(255-blue, 0, blue);
+            int rgb = color.getRGB();
+
+            if (a.row == b.row) {
+                for (int c = Math.min(a.col, b.col); c < Math.max(a.col, b.col); c++) {
+                    this.pathImage.setRGB(c, a.row, rgb);
+                }
+            } else if (a.col == b.col) {
+                for (int r = Math.min(a.row, b.row); r < Math.max(a.row, b.row) + 1; r++) {
+                    this.pathImage.setRGB(a.col, r, rgb);
+                }
+            }
+        }
+
+        ImageIO.write(this.pathImage, "png", new File(Constants.OUTPUT_FOLDER_PATH + this.imageName + "Solved" + Constants.FILE_SUFFIX_BMP));
 
     }
 
     private void loadImage(String name) throws IOException {
-        this.image = ImageIO.read(new File(Constants.INPUT_FOLDER_PATH + name + Constants.FILE_SUFFIX_BMP));
+        this.image = ImageIO.read(new File(Constants.INPUT_FOLDER_PATH + name + Constants.FILE_SUFFIX_PNG));
         this.rows = this.image.getHeight();
         this.cols = this.image.getWidth();
     }
