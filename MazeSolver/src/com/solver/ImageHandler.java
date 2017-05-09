@@ -10,5 +10,5 @@ public interface ImageHandler {
 
     Maze parseImage(String name) throws IOException;
 
-    void drawPath(Queue<Node> path) throws IOException;
+    void drawPath(Queue<Node> path, String name) throws IOException;
 }

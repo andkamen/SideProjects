@@ -11,8 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Queue;
 
 public class ImageHandlerImpl implements ImageHandler {
@@ -31,11 +29,17 @@ public class ImageHandlerImpl implements ImageHandler {
     @Override
     public Maze parseImage(String name) throws IOException {
         this.imageName = name;
+        System.out.println("Loading Image");
         loadImage(name);
 
+        System.out.println("Creating Maze");
+        long startTime = System.nanoTime();
         createGrid();
         markNodeLocations();
         connectNodes();
+        long endTime = System.nanoTime();
+        System.out.println("Node count: " + maze.getCount());
+        System.out.println("Time elapsed: " + (endTime - startTime) / 1_000_000 + " millis");
 
 //        for (int[] ints : grid) {
 //            for (int num : ints) {
@@ -43,13 +47,12 @@ public class ImageHandlerImpl implements ImageHandler {
 //            }
 //            System.out.println();
 //        }
-        System.out.println();
 
         return this.maze;
     }
 
     @Override
-    public void drawPath(Queue<Node> path) throws IOException {
+    public void drawPath(Queue<Node> path, String algorithmName) throws IOException {
         //Make a copy of original image
         this.pathImage = new BufferedImage(this.image.getWidth(), this.image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         for (int i = 0; i < this.image.getHeight(); i++) {
@@ -70,7 +73,7 @@ public class ImageHandlerImpl implements ImageHandler {
 
             // Blue - red
             int blue = (int) (((double) i / length) * 255);
-            Color color = new Color(255-blue, 0, blue);
+            Color color = new Color(255 - blue, 0, blue);
             int rgb = color.getRGB();
 
             if (a.row == b.row) {
@@ -84,7 +87,7 @@ public class ImageHandlerImpl implements ImageHandler {
             }
         }
 
-        ImageIO.write(this.pathImage, "png", new File(Constants.OUTPUT_FOLDER_PATH + this.imageName + "Solved" + Constants.FILE_SUFFIX_BMP));
+        ImageIO.write(this.pathImage, "png", new File(Constants.OUTPUT_FOLDER_PATH + this.imageName + algorithmName + Constants.FILE_SUFFIX_PNG));
 
     }
 
@@ -166,6 +169,7 @@ public class ImageHandlerImpl implements ImageHandler {
         this.maze.setStart(start);
 
         for (int row = 1; row < this.rows - 1; row++) {
+            leftNode = null;
             for (int col = 1; col < this.cols - 1; col++) {
 
                 //If on a wall:

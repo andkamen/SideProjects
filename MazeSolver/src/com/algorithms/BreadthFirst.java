@@ -2,13 +2,15 @@ package com.algorithms;
 
 import com.dataStructures.Maze;
 import com.dataStructures.Node;
+import com.dataStructures.Solution;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public class BreadthFirst {
+public class BreadthFirst implements Algorithm{
 
-    public Queue<Node> solve(Maze maze) {
+    @Override
+    public Solution solve(Maze maze) {
 
         Node start = maze.getStart();
         Node end = maze.getEnd();
@@ -54,9 +56,8 @@ public class BreadthFirst {
             current = prev[current.row * width + current.col];
         }
 
-
-
-        return path;
+        Solution solution = new Solution(path,path.size(),count,completed);
+        return solution;
 
     }
 }
