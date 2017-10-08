@@ -6,7 +6,6 @@ import com.algorithms.DepthFirst;
 
 public class AlgorithmFactory {
 
-
     public Algorithm getAlgorithm(String name) {
         Algorithm algorithm = null;
 
@@ -18,11 +17,8 @@ public class AlgorithmFactory {
                 algorithm = new DepthFirst();
                 break;
             default:
-
         }
-
 
         return algorithm;
     }
-
 }

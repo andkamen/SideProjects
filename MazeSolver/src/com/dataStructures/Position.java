@@ -1,13 +1,11 @@
 package com.dataStructures;
 
-public class Position{
-    int r;
-    int c;
+import lombok.AllArgsConstructor;
 
-    public Position(int r, int c) {
-        this.r = r;
-        this.c = c;
-    }
+@AllArgsConstructor
+public class Position {
+    private int r;
+    private int c;
 
     @Override
     public boolean equals(Object o) {

@@ -8,7 +8,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Stack;
 
-public class DepthFirst implements Algorithm{
+public class DepthFirst implements Algorithm {
 
     @Override
     public Solution solve(Maze maze) {
@@ -57,7 +57,6 @@ public class DepthFirst implements Algorithm{
             current = prev[current.row * width + current.col];
         }
 
-        Solution solution = new Solution(path,path.size(),count,completed);
-        return solution;
+        return new Solution(path, path.size(), count, completed);
     }
 }

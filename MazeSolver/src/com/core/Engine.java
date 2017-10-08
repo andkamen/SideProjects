@@ -82,11 +82,9 @@ public class Engine {
                         System.out.println("Time elapsed: " + (endTime - startTime) / 1_000_000 + " millis");
 
                         if (solution.isCompleted()) {
-                          //  this.imageHandler.drawPath(solution.getPath(), name);
+                            //  this.imageHandler.drawPath(solution.getPath(), name);
                         }
                     }
-
-
                     break;
                 default:
                     throw new InvalidInputException(commandName.toLowerCase());

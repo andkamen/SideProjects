@@ -7,7 +7,7 @@ import com.dataStructures.Solution;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public class BreadthFirst implements Algorithm{
+public class BreadthFirst implements Algorithm {
 
     @Override
     public Solution solve(Maze maze) {
@@ -56,8 +56,7 @@ public class BreadthFirst implements Algorithm{
             current = prev[current.row * width + current.col];
         }
 
-        Solution solution = new Solution(path,path.size(),count,completed);
-        return solution;
+        return new Solution(path, path.size(), count, completed);
 
     }
 }

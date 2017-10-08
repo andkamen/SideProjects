@@ -21,11 +21,4 @@ public class Constants {
     public static final int NODE = 2;
     public static final int START = 3;
     public static final int END = 4;
-
-    //Node neighbour directions
-    public static final int UP = 0;
-    public static final int RIGHT = 1;
-    public static final int DOWN = 2;
-    public static final int LEFT = 3;
-
 }

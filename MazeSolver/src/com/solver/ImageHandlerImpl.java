@@ -4,6 +4,7 @@ import com.dataStructures.Maze;
 import com.dataStructures.Node;
 import com.exceptions.InvalidImageFormat;
 import com.utilities.Constants;
+import com.utilities.Directions;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -38,7 +39,7 @@ public class ImageHandlerImpl implements ImageHandler {
         markNodeLocations();
         connectNodes();
         long endTime = System.nanoTime();
-        System.out.println("Node count: " + maze.getCount());
+        System.out.println("Node nodeCount: " + maze.getNodeCount());
         System.out.println("Time elapsed: " + (endTime - startTime) / 1_000_000 + " millis");
 
 //        for (int[] ints : grid) {
@@ -185,8 +186,8 @@ public class ImageHandlerImpl implements ImageHandler {
                 if (this.grid[row][col] == Constants.NODE) {
                     curNode = new Node(row, col);
                     if (leftNode != null) {
-                        leftNode.neighbours[Constants.RIGHT] = curNode;
-                        curNode.neighbours[Constants.LEFT] = leftNode;
+                        leftNode.neighbours[Directions.RIGHT.getValue()] = curNode;
+                        curNode.neighbours[Directions.LEFT.getValue()] = leftNode;
                     }
                     leftNode = curNode;
                 }
@@ -195,8 +196,8 @@ public class ImageHandlerImpl implements ImageHandler {
                 if (this.grid[row][col] == Constants.NODE) {
                     topNode = topNodes[col];
                     if (topNode != null) {
-                        curNode.neighbours[Constants.UP] = topNode;
-                        topNode.neighbours[Constants.DOWN] = curNode;
+                        curNode.neighbours[Directions.UP.getValue()] = topNode;
+                        topNode.neighbours[Directions.DOWN.getValue()] = curNode;
                     }
 
                     //If clear below, put this new node in the top row for the next connection
@@ -214,8 +215,8 @@ public class ImageHandlerImpl implements ImageHandler {
 
                 topNode = topNodes[col];
                 if (topNode != null) {
-                    end.neighbours[Constants.UP] = topNode;
-                    topNode.neighbours[Constants.DOWN] = end;
+                    end.neighbours[Directions.UP.getValue()] = topNode;
+                    topNode.neighbours[Directions.DOWN.getValue()] = end;
                 }
             }
         }
