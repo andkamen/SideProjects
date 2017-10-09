@@ -156,6 +156,7 @@ public class ImageHandlerImpl implements ImageHandler {
         Node leftNode = null;
         Node topNode = null;
         Node curNode = null;
+        int nodeId = 1;
 
         //top row buffer
         Node[] topNodes = new Node[this.cols];
@@ -163,7 +164,7 @@ public class ImageHandlerImpl implements ImageHandler {
         //Initialize start node
         for (int col = 1; col < this.cols - 1; col++) {
             if (this.grid[0][col] == Constants.START) {
-                start = new Node(0, col);
+                start = new Node(0, col,nodeId++);
                 topNodes[col] = start;
             }
         }
@@ -184,7 +185,7 @@ public class ImageHandlerImpl implements ImageHandler {
 
                 //If on node, try to connect currentNode to leftNode if exists and topNode if exists
                 if (this.grid[row][col] == Constants.NODE) {
-                    curNode = new Node(row, col);
+                    curNode = new Node(row, col,nodeId++);
                     if (leftNode != null) {
                         leftNode.neighbours[Directions.RIGHT.getValue()] = curNode;
                         curNode.neighbours[Directions.LEFT.getValue()] = leftNode;
@@ -211,7 +212,7 @@ public class ImageHandlerImpl implements ImageHandler {
         //Initialize end node
         for (int col = 1; col < this.cols - 1; col++) {
             if (this.grid[this.rows - 1][col] == Constants.END) {
-                end = new Node(this.rows - 1, col);
+                end = new Node(this.rows - 1, col,nodeId++);
 
                 topNode = topNodes[col];
                 if (topNode != null) {
