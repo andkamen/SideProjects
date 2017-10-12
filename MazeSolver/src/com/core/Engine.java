@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public class Engine {
 
-    private String[] algorithms = {"BFS", "DFS"};
+    private String[] algorithms = {"DFS", "BFS", "Dijkstra"};
 
     private ConsoleIO consoleIO;
     private ImageHandler imageHandler;
@@ -24,18 +24,18 @@ public class Engine {
     private Boolean isRunning;
 
     public Engine() {
-        this.consoleIO = new ConsoleIOImpl();
-        this.imageHandler = new ImageHandlerImpl();
-        this.algorithmFactory = new AlgorithmFactory();
+        consoleIO = new ConsoleIOImpl();
+        imageHandler = new ImageHandlerImpl();
+        algorithmFactory = new AlgorithmFactory();
     }
 
     public void run() {
-        this.isRunning = true;
+        isRunning = true;
 
-        while (this.isRunning) {
-            String inputLine = this.consoleIO.readLine();
+        while (isRunning) {
+            String inputLine = consoleIO.readLine();
 
-            this.processInput(inputLine);
+            processInput(inputLine);
         }
     }
 
@@ -46,7 +46,7 @@ public class Engine {
         String commandName = splitArgs[0];
 
         if (commandName.toLowerCase().equals(Constants.INPUT_TERMINATING_COMMAND)) {
-            this.isRunning = false;
+            isRunning = false;
             return;
         }
 
@@ -64,13 +64,13 @@ public class Engine {
                 case "solve":
                     //Measure maze creation Time
 
-                    Maze maze = this.imageHandler.parseImage(filteredArgs[0]);
+                    Maze maze = imageHandler.parseImage(filteredArgs[0]);
 
                     for (String name : algorithms) {
                         System.out.println("------------- Solving " + name + "-------------");
 
                         long startTime = System.nanoTime();
-                        Algorithm algorithm = this.algorithmFactory.getAlgorithm(name);
+                        Algorithm algorithm = algorithmFactory.getAlgorithm(name);
                         Solution solution = algorithm.solve(maze);
                         long endTime = System.nanoTime();
 
@@ -82,7 +82,7 @@ public class Engine {
                         System.out.println("Time elapsed: " + (endTime - startTime) / 1_000_000 + " millis");
 
                         if (solution.isCompleted()) {
-                            //  this.imageHandler.drawPath(solution.getPath(), name);
+                            imageHandler.drawPath(solution.getPath(), name);
                         }
                     }
                     break;
@@ -90,7 +90,7 @@ public class Engine {
                     throw new InvalidInputException(commandName.toLowerCase());
             }
         } catch (Exception e) {
-            this.consoleIO.writeLine(e.getMessage());
+            consoleIO.writeLine(e.getMessage());
         }
     }
 }

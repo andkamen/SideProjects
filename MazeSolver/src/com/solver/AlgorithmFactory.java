@@ -3,6 +3,7 @@ package com.solver;
 import com.algorithms.Algorithm;
 import com.algorithms.BreadthFirst;
 import com.algorithms.DepthFirst;
+import com.algorithms.Dijkstra;
 
 public class AlgorithmFactory {
 
@@ -16,6 +17,8 @@ public class AlgorithmFactory {
             case "DFS":
                 algorithm = new DepthFirst();
                 break;
+            case "Dijkstra":
+                algorithm = new Dijkstra();
             default:
         }
 
