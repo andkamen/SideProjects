@@ -16,13 +16,9 @@ public class BreadthFirst implements Algorithm {
         Node end = maze.getEnd();
         Node current = null;
 
-        int width = maze.getCols();
-
         Queue<Node> queue = new ArrayDeque<>();
         queue.add(start);
 
-        //TODO nodes now have ID's. remove n*2 length arrays
-        Node[] prev = new Node[maze.getEnd().id + 1];
         boolean[] visited = new boolean[maze.getEnd().id + 1];
 
         int nodesExplored = 0;
@@ -43,7 +39,7 @@ public class BreadthFirst implements Algorithm {
                     if (!visited[n.id]) {
                         queue.add(n);
                         visited[n.id] = true;
-                        prev[n.id] = current;
+                        n.parent = current;
                     }
                 }
             }
@@ -58,7 +54,7 @@ public class BreadthFirst implements Algorithm {
 
             pathLength += calcDistance(prevNode, currentNode);
             prevNode = currentNode;
-            currentNode = prev[currentNode.id];
+            currentNode = currentNode.parent;
         }
 
         return new Solution(path, pathLength, nodesExplored, completed);

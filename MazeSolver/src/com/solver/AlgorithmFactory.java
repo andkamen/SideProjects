@@ -1,9 +1,6 @@
 package com.solver;
 
-import com.algorithms.Algorithm;
-import com.algorithms.BreadthFirst;
-import com.algorithms.DepthFirst;
-import com.algorithms.Dijkstra;
+import com.algorithms.*;
 
 public class AlgorithmFactory {
 
@@ -19,6 +16,10 @@ public class AlgorithmFactory {
                 break;
             case "Dijkstra":
                 algorithm = new Dijkstra();
+                break;
+            case "AStar":
+                algorithm = new AStar();
+                break;
             default:
         }
 

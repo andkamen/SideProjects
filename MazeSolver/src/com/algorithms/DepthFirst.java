@@ -17,12 +17,9 @@ public class DepthFirst implements Algorithm {
         Node end = maze.getEnd();
         Node current = null;
 
-        int width = maze.getCols();
-
         Stack<Node> stack = new Stack<>();
         stack.add(start);
 
-        Node[] prev = new Node[maze.getEnd().id + 1];
         boolean[] visited = new boolean[maze.getEnd().id + 1];
 
         int nodesExplored = 0;
@@ -43,7 +40,7 @@ public class DepthFirst implements Algorithm {
                     if (!visited[n.id]) {
                         stack.push(n);
                         visited[n.id] = true;
-                        prev[n.id] = current;
+                        n.parent = current;
                     }
                 }
             }
@@ -58,7 +55,7 @@ public class DepthFirst implements Algorithm {
 
             pathLength += calcDistance(prevNode, currentNode);
             prevNode = currentNode;
-            currentNode = prev[currentNode.id];
+            currentNode = currentNode.parent;
         }
 
         return new Solution(path, pathLength, nodesExplored, completed);

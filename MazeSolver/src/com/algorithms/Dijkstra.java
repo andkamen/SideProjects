@@ -16,36 +16,38 @@ public class Dijkstra implements Algorithm {
 
     @Override
     public Solution solve(Maze maze) {
-
-        Integer[] distance = new Integer[maze.getEnd().id + 1];
-        Node[] prev = new Node[maze.getEnd().id + 1];
-        boolean[] visited = new boolean[maze.getEnd().id + 1];
-
         int nodesExplored = 0;
         boolean completed = false;
+
+        Integer[] distance = new Integer[maze.getEnd().id + 1];
+        boolean[] visited = new boolean[maze.getEnd().id + 1];
 
         PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(n -> distance[n.id]));
 
         distance[maze.getStart().id] = 0;
-        prev[maze.getStart().id] = null;
+        maze.getStart().parent = null;
         pq.add(maze.getStart());
 
         while (!pq.isEmpty()) {
-            Node node = pq.poll();
+            Node current = pq.poll();
             nodesExplored++;
 
-            if (visited[node.id]) {
+            if (visited[current.id]) {
                 continue;
             }
-            visited[node.id] = true;
+            visited[current.id] = true;
 
-            for (Node neighbour : node.neighbours) {
+            if (maze.getEnd().equals(current)) {
+                break;
+            }
+
+            for (Node neighbour : current.neighbours) {
                 if (neighbour == null || visited[neighbour.id]) {
                     continue;
                 }
-                if (distance[neighbour.id] == null || distance[neighbour.id] > distance[node.id] + calcDistance(node, neighbour)) {
-                    distance[neighbour.id] = distance[node.id] + calcDistance(node, neighbour);
-                    prev[neighbour.id] = node;
+                if (distance[neighbour.id] == null || distance[neighbour.id] > distance[current.id] + calcDistance(current, neighbour)) {
+                    distance[neighbour.id] = distance[current.id] + calcDistance(current, neighbour);
+                    neighbour.parent = current;
                     pq.add(neighbour);
                 }
             }
@@ -57,17 +59,12 @@ public class Dijkstra implements Algorithm {
 
         Queue<Node> path = new ArrayDeque<>();
         Node currentNode = maze.getEnd();
-        Node prevNode = maze.getEnd();
-        int pathLength = 0;
         while (currentNode != null) {
             path.add(currentNode);
-
-            pathLength += calcDistance(prevNode, currentNode);
-            prevNode = currentNode;
-            currentNode = prev[currentNode.id];
+            currentNode = currentNode.parent;
         }
 
-        return new Solution(path, pathLength, nodesExplored, completed);
+        return new Solution(path, distance[maze.getEnd().id], nodesExplored, completed);
     }
 
     private int calcDistance(Node from, Node to) {
