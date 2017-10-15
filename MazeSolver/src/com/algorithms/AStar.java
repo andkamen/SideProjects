@@ -4,7 +4,9 @@ import com.dataStructures.Maze;
 import com.dataStructures.Node;
 import com.dataStructures.Solution;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * g_cost -> distance from start to node
@@ -19,17 +21,21 @@ public class AStar implements Algorithm {
     @Override
     public Solution solve(Maze maze) {
         int nodesExplored = 0;
-        boolean completed = false;
+        boolean isCompleted = false;
+        Node current = null;
 
         Integer[] gCost = new Integer[maze.getEnd().id + 1];
         Integer[] hCost = new Integer[maze.getEnd().id + 1];
-        Set<Node> closed = new HashSet<>();
+
+        //gCost can serve as a visited nodes check. If value is != null then it has been visited
+        //Set<Node> closed = new HashSet<>();
+
         PriorityQueue<Node> open = new PriorityQueue<>(
                 (n1, n2) -> {
                     int result = Integer.compare(gCost[n1.id] + hCost[n1.id], gCost[n2.id] + hCost[n2.id]);
-                    if (result == 0) {
-                        result = Integer.compare(hCost[n1.id], hCost[n2.id]);
-                    }
+//                    if (result == 0) {
+//                        result = Integer.compare(hCost[n1.id], hCost[n2.id]);
+//                    }
                     return result;
                 });
 
@@ -39,34 +45,38 @@ public class AStar implements Algorithm {
 
 
         while (!open.isEmpty()) {
-            Node current = open.poll();
-            closed.add(current);
+            current = open.poll();
+            //closed.add(current);
             nodesExplored++;
 
-            if (maze.getEnd().equals(current)) {
+            if (current.equals(maze.getEnd())) {
                 break;
             }
 
             for (Node neighbour : current.neighbours) {
-                if (neighbour == null || closed.contains(neighbour)) {
+                if (neighbour == null) {
                     continue;
                 }
 
                 int newGCost = gCost[current.id] + calcDistance(current, neighbour);
+
                 if (gCost[neighbour.id] == null || newGCost < gCost[neighbour.id]) {
                     gCost[neighbour.id] = newGCost;
                     hCost[neighbour.id] = calcHCost(neighbour, maze.getEnd());
                     neighbour.parent = current;
-                    if (!open.contains(neighbour)) {
-                        open.add(neighbour);
-                    }
+
+                    //membership is O(n). Faster to add the same node twice than to do the check each time.
+                    // if (!open.contains(neighbour)) {
+                    open.add(neighbour);
+                    // }
                 }
             }
         }
 
 
-        if (closed.contains(maze.getEnd())) {
-            completed = true;
+        // if (closed.contains(maze.getEnd())) {
+        if (gCost[maze.getEnd().id] != null) {
+            isCompleted = true;
         }
 
         Queue<Node> path = new ArrayDeque<>();
@@ -76,7 +86,7 @@ public class AStar implements Algorithm {
             currentNode = currentNode.parent;
         }
 
-        return new Solution(path, gCost[maze.getEnd().id], nodesExplored, completed);
+        return new Solution(path, gCost[maze.getEnd().id], nodesExplored, isCompleted);
     }
 
     private int calcDistance(Node from, Node to) {

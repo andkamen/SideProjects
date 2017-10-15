@@ -17,7 +17,8 @@ public class Dijkstra implements Algorithm {
     @Override
     public Solution solve(Maze maze) {
         int nodesExplored = 0;
-        boolean completed = false;
+        boolean isCompleted = false;
+        Node current = null;
 
         Integer[] distance = new Integer[maze.getEnd().id + 1];
         boolean[] visited = new boolean[maze.getEnd().id + 1];
@@ -29,7 +30,7 @@ public class Dijkstra implements Algorithm {
         pq.add(maze.getStart());
 
         while (!pq.isEmpty()) {
-            Node current = pq.poll();
+            current = pq.poll();
             nodesExplored++;
 
             if (visited[current.id]) {
@@ -37,7 +38,7 @@ public class Dijkstra implements Algorithm {
             }
             visited[current.id] = true;
 
-            if (maze.getEnd().equals(current)) {
+            if (current.equals(maze.getEnd())) {
                 break;
             }
 
@@ -54,7 +55,7 @@ public class Dijkstra implements Algorithm {
         }
 
         if (visited[maze.getEnd().id]) {
-            completed = true;
+            isCompleted = true;
         }
 
         Queue<Node> path = new ArrayDeque<>();
@@ -64,7 +65,7 @@ public class Dijkstra implements Algorithm {
             currentNode = currentNode.parent;
         }
 
-        return new Solution(path, distance[maze.getEnd().id], nodesExplored, completed);
+        return new Solution(path, distance[maze.getEnd().id], nodesExplored, isCompleted);
     }
 
     private int calcDistance(Node from, Node to) {

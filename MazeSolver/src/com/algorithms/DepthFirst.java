@@ -12,27 +12,24 @@ public class DepthFirst implements Algorithm {
 
     @Override
     public Solution solve(Maze maze) {
-
-        Node start = maze.getStart();
-        Node end = maze.getEnd();
+        int nodesExplored = 0;
+        boolean isCompleted = false;
         Node current = null;
 
         Stack<Node> stack = new Stack<>();
-        stack.add(start);
+        stack.add(maze.getStart());
 
         boolean[] visited = new boolean[maze.getEnd().id + 1];
 
-        int nodesExplored = 0;
-        boolean completed = false;
 
-        visited[start.id] = true;
+        visited[maze.getStart().id] = true;
 
         while (!stack.isEmpty()) {
             nodesExplored++;
             current = stack.pop();
 
-            if (current == end) {
-                completed = true;
+            if (current.equals(maze.getEnd())) {
+                isCompleted = true;
                 break;
             }
             for (Node n : current.neighbours) {
@@ -58,7 +55,7 @@ public class DepthFirst implements Algorithm {
             currentNode = currentNode.parent;
         }
 
-        return new Solution(path, pathLength, nodesExplored, completed);
+        return new Solution(path, pathLength, nodesExplored, isCompleted);
     }
 
     private int calcDistance(Node from, Node to) {

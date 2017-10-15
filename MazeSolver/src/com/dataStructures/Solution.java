@@ -12,5 +12,5 @@ public class Solution {
     private Queue<Node> path;
     private int pathLength;
     private int nodesExplored;
-    private boolean completed;
+    private boolean isCompleted;
 }
