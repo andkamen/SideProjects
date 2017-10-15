@@ -83,7 +83,7 @@ public class Engine {
                         System.out.println("Time elapsed: " + (endTime - startTime) / 1_000_000 + " millis");
 
                         if (solution.isCompleted()) {
-                            //   imageHandler.drawPath(solution.getPath(), name);
+                            // imageHandler.drawPath(solution.getPath(), name);
                         }
                     }
                     break;

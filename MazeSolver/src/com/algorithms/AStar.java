@@ -26,16 +26,16 @@ public class AStar implements Algorithm {
         Set<Node> closed = new HashSet<>();
         PriorityQueue<Node> open = new PriorityQueue<>(
                 (n1, n2) -> {
-                    int result = Integer.compare(gCost[n1.id] + hCost[n2.id], gCost[n2.id] + hCost[n1.id]);
-                    if (result == 1) {
-                        result = Integer.compare(hCost[n2.id], hCost[n1.id]);
+                    int result = Integer.compare(gCost[n1.id] + hCost[n1.id], gCost[n2.id] + hCost[n2.id]);
+                    if (result == 0) {
+                        result = Integer.compare(hCost[n1.id], hCost[n2.id]);
                     }
                     return result;
                 });
 
         open.add(maze.getStart());
         gCost[maze.getStart().id] = 0;
-        hCost[maze.getStart().id] = calcDistance(maze.getStart(), maze.getEnd());
+        hCost[maze.getStart().id] = calcHCost(maze.getStart(), maze.getEnd());
 
 
         while (!open.isEmpty()) {
@@ -55,7 +55,7 @@ public class AStar implements Algorithm {
                 int newGCost = gCost[current.id] + calcDistance(current, neighbour);
                 if (gCost[neighbour.id] == null || newGCost < gCost[neighbour.id]) {
                     gCost[neighbour.id] = newGCost;
-                    hCost[neighbour.id] = calcDistance(neighbour, maze.getEnd());
+                    hCost[neighbour.id] = calcHCost(neighbour, maze.getEnd());
                     neighbour.parent = current;
                     if (!open.contains(neighbour)) {
                         open.add(neighbour);
@@ -84,6 +84,6 @@ public class AStar implements Algorithm {
     }
 
     private int calcHCost(Node node, Node goal) {
-        return Math.abs(node.col - goal.col) + Math.abs(node.row - goal.row);
+        return (Math.abs(node.col - goal.col) + Math.abs(node.row - goal.row));
     }
 }
