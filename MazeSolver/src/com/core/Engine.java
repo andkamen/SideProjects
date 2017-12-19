@@ -11,7 +11,6 @@ import com.solver.ImageHandler;
 import com.solver.ImageHandlerImpl;
 import com.utilities.Constants;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 public class Engine {
@@ -83,14 +82,14 @@ public class Engine {
                         System.out.println("Time elapsed: " + (endTime - startTime) / 1_000_000 + " millis");
 
                         if (solution.isCompleted()) {
-                            // imageHandler.drawPath(solution.getPath(), name);
+                            imageHandler.drawPath(solution.getPath(), name);
                         }
                     }
                     break;
                 default:
                     throw new InvalidInputException(commandName.toLowerCase());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             consoleIO.writeLine(e.getMessage());
         }
     }

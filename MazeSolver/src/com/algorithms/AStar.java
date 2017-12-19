@@ -33,6 +33,7 @@ public class AStar implements Algorithm {
         PriorityQueue<Node> open = new PriorityQueue<>(
                 (n1, n2) -> {
                     int result = Integer.compare(gCost[n1.id] + hCost[n1.id], gCost[n2.id] + hCost[n2.id]);
+                    //tiebreaker works well for more open grids. Doesn't do much/ makes more nodes get explored for dense mazes
 //                    if (result == 0) {
 //                        result = Integer.compare(hCost[n1.id], hCost[n2.id]);
 //                    }

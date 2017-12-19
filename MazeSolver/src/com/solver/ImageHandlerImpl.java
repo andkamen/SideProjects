@@ -72,18 +72,18 @@ public class ImageHandlerImpl implements ImageHandler {
             Node a = resultPath.get(i);
             Node b = resultPath.get(i + 1);
 
-            // Blue - red
+            // Blue -> red
             int blue = (int) (((double) i / length) * 255);
             Color color = new Color(255 - blue, 0, blue);
             int rgb = color.getRGB();
 
             if (a.row == b.row) {
-                for (int c = Math.min(a.col, b.col); c < Math.max(a.col, b.col); c++) {
-                    this.pathImage.setRGB(c, a.row, rgb);
+                for (int col = Math.min(a.col, b.col); col < Math.max(a.col, b.col); col++) {
+                    this.pathImage.setRGB(col, a.row, rgb);
                 }
             } else if (a.col == b.col) {
-                for (int r = Math.min(a.row, b.row); r < Math.max(a.row, b.row) + 1; r++) {
-                    this.pathImage.setRGB(a.col, r, rgb);
+                for (int row = Math.min(a.row, b.row); row < Math.max(a.row, b.row) + 1; row++) {
+                    this.pathImage.setRGB(a.col, row, rgb);
                 }
             }
         }
