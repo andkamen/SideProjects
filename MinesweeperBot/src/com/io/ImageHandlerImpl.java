@@ -8,8 +8,11 @@ import com.utilities.CellState;
 import com.utilities.Constants;
 import com.utilities.GameState;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class ImageHandlerImpl implements ImageHandler {
 
@@ -44,18 +47,18 @@ public class ImageHandlerImpl implements ImageHandler {
 
     @Override
     public GameState updateGameState(Minefield minefield) throws InterruptedException {
-        Thread.sleep(50); //Allows time for game to update
+        Thread.sleep(100); //Allows time for game to update
         BufferedImage faceSquare = robot.createScreenCapture(minefield.getFaceSquare());
 
-//        try {
-//            ImageIO.write(faceSquare, "png", new File(Constants.OUTPUT_FOLDER_PATH + "faceSquare" + Constants.FILE_SUFFIX_PNG));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            ImageIO.write(faceSquare, "png", new File(Constants.OUTPUT_FOLDER_PATH + "faceSquare" + Constants.FILE_SUFFIX_PNG));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         int topLeft = faceSquare.getRGB(6, 6);
-        int bottomRight = faceSquare.getRGB(7, 7);
-
+        int bottomRight = faceSquare.getRGB(6, 7);
+        System.out.println(String.format("top left: %s / bottomRight: %s .", topLeft, bottomRight));
         return GameState.parseState(topLeft, bottomRight);
 
     }

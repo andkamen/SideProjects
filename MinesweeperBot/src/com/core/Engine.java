@@ -2,9 +2,11 @@ package com.core;
 
 import com.io.ConsoleIOImpl;
 import com.io.ImageHandlerImpl;
+import com.io.KeyboardIOImpl;
 import com.io.MouseIOImpl;
 import com.io.contracts.ConsoleIO;
 import com.io.contracts.ImageHandler;
+import com.io.contracts.KeyboardIO;
 import com.io.contracts.MouseIO;
 import com.solver.MinesweeperBot;
 import com.utilities.Constants;
@@ -16,6 +18,7 @@ import java.util.Arrays;
 public class Engine {
 
     private MouseIO mouseIO;
+    private KeyboardIO keyboardIO;
     private ConsoleIO consoleIO;
     private ImageHandler imageHandler;
     private Robot robot;
@@ -26,9 +29,10 @@ public class Engine {
     public Engine() throws AWTException {
         robot = new Robot();
         mouseIO = new MouseIOImpl(robot);
+        keyboardIO = new KeyboardIOImpl(robot);
         consoleIO = new ConsoleIOImpl();
         imageHandler = new ImageHandlerImpl(robot);
-        bot = new MinesweeperBot(mouseIO, imageHandler);
+        bot = new MinesweeperBot(mouseIO, keyboardIO, imageHandler);
     }
 
     public void run() {

@@ -18,15 +18,15 @@ public enum GameState {
 
     /*
         Top Left Pixel has coordinates row 6 col 6
-        Bottom Right Pixel has coordinates row 7 col 7
+        Bottom Right Pixel has coordinates row 7 col 6
      */
     public static GameState parseState(int topLeft, int bottomRight) {
         GameState state = null;
-        if (topLeft == Constants.COLOUR_YELLOW && bottomRight == Constants.COLOUR_BLACK) {
-            state = IN_PROGRESS;
+        if (topLeft == Constants.COLOUR_BLACK && bottomRight == Constants.COLOUR_YELLOW) {
+            state = GAME_OVER;
         }
         if (topLeft == Constants.COLOUR_YELLOW && bottomRight == Constants.COLOUR_YELLOW) {
-            state = GAME_OVER;
+            state = IN_PROGRESS;
         }
         if (topLeft == Constants.COLOUR_BLACK && bottomRight == Constants.COLOUR_BLACK) {
             state = WIN;
